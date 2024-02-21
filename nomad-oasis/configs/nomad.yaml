@@ -26,7 +26,9 @@ elastic:
 
 plugins:
   options:
-    parsers/XRD:
-      python_package: xrd
+    parsers/nomad_measurements/xrd:
+      python_package: nomad_measurements.xrd
     schemas/nomad_measurments:
       python_package: nomad_measurements
+    schemas/nomad_material_processing:
+      python_package: nomad_material_processing
