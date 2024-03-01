@@ -1,7 +1,7 @@
 # DTU Nanolab's NOMAD Oasis Image
 A repository for composing and hosting the NOMAD oasis image for DTU Nanolab.
 
-## Adding a plugin
+## Adding or updating a plugin
 
 To add a new plugin to the docker image you should add it to the [plugins.txt](plugins.txt) file.
 
@@ -20,6 +20,18 @@ git+https://github.com/FAIRmat-NFDI/nomad-measurements.git@v0.0.4
 To add a plugin in a subdirectory of a git repository you can use the `subdirectory` option, e.g.
 ```
 git+https://github.com/FAIRmat-NFDI/AreaA-data_modeling_and_schemas.git@30fc90843428d1b36a1d222874803abae8b1cb42#subdirectory=PVD/PLD/jeremy_ikz/ikz_pld_plugin
+```
+
+If the plugin is new, you also need to add it under `plugins` in the [nomad.yaml](nomad.yaml)
+config file that will be included in the image.
+For example, if you have added a schema plugin `nomad_material_processing` you should add 
+the following:
+
+```yaml
+plugins:
+  options:
+    schemas/nomad_material_processing:
+      python_package: nomad_material_processing
 ```
 
 Once the changes have been committed to the main branch, the new image will automatically be generated.
