@@ -1,6 +1,8 @@
 FROM gitlab-registry.mpcdf.mpg.de/nomad-lab/nomad-fair:develop
-
-RUN pip install xmltodict
-
-COPY --chown=nomad:1000 ./plugins/nomad-measurements/src/nomad_measurements /app/plugins/nomad_measurements
-COPY --chown=nomad:1000 ./plugins/nomad-measurements/src/nomad_measurements/xrd /app/plugins/xrd
+USER root
+RUN apt-get update
+RUN apt-get -y install git
+USER nomad
+COPY plugins.txt plugins.txt
+RUN pip install -r plugins.txt
+COPY nomad.yaml nomad.yaml

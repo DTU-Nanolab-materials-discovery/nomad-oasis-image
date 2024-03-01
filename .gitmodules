@@ -1,3 +1,0 @@
-[submodule "plugins/nomad-measurements"]
-	path = plugins/nomad-measurements
-	url = git@github.com:FAIRmat-NFDI/nomad-measurements.git
