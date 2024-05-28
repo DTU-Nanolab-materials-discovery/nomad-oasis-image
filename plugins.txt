@@ -1,3 +1,3 @@
 nomad-material-processing==0.0.7
 git+https://github.com/FAIRmat-NFDI/nomad-measurements.git@994d5ebfc7713fda532f33666fd9e4f21e8c2d82
-git+https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git@v0.1.1
+git+https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git@v0.1.2
