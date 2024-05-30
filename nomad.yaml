@@ -30,7 +30,7 @@ plugins:
     schemas/nomad_material_processing:
       python_package: nomad_material_processing
     schemas/nomad_material_processing/pvd:
-      python_package: nomad_material_processing.physical_vapor_deposition
+      python_package: nomad_material_processing.vapor_deposition.pvd
     schemas/nomad_measurements:
       python_package: nomad_measurements
     parsers/nomad_measurements/xrd:
