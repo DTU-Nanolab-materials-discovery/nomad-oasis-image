@@ -1,4 +1,4 @@
 nomad-material-processing==0.1.0
 nomad-measurements==0.1.0
-git+https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git@v0.2.3
+git+https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git@v0.3.3
 
