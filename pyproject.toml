@@ -40,7 +40,7 @@ plugins = [
   "nomad-parser-plugins-workflow>=1.0",
   "nomad-parser-plugins-database>=1.0",
   "nomad-material-processing==0.1.0",
-  "nomad-measurements==0.1.0",
+  "nomad-measurements==0.1.2",
   "nomad-dtu-nanolab-plugin",
 ]
 jupyter = []
