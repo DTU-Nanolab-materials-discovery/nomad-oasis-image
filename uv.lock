@@ -3650,7 +3650,7 @@ requires-dist = [
     { name = "nomad-lab", extras = ["parsing", "infrastructure"], specifier = ">=1.3.4" },
     { name = "nomad-lab", extras = ["parsing", "infrastructure", "dev"], marker = "extra == 'dev'", specifier = ">=1.3.4" },
     { name = "nomad-material-processing", marker = "extra == 'plugins'", specifier = "==0.1.0" },
-    { name = "nomad-measurements", marker = "extra == 'plugins'", specifier = "==0.1.0" },
+    { name = "nomad-measurements", marker = "extra == 'plugins'", specifier = "==1.0.2" },
     { name = "nomad-normalizer-plugin-bandstructure", marker = "extra == 'plugins'", specifier = ">=1.0" },
     { name = "nomad-normalizer-plugin-dos", marker = "extra == 'plugins'", specifier = ">=1.0" },
     { name = "nomad-normalizer-plugin-simulation-workflow", marker = "extra == 'plugins'", specifier = ">=1.0" },
@@ -3825,17 +3825,16 @@ wheels = [
 
 [[package]]
 name = "nomad-measurements"
-version = "0.1.0"
+version = "1.0.2"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "fairmat-readers-xrd" },
     { name = "nomad-lab" },
-    { name = "pynxtools" },
     { name = "xmltodict" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/cf/02/2e6f23c90676f3fdeaddf01f11fb4b48a8ffc9e9f9283f466a357349a169/nomad_measurements-0.1.0.tar.gz", hash = "sha256:44c2e4fd92efdd7e7e7b8c095a7d655ac0d6e293e311725a544a24e8ff7f1b6f", size = 6846173 }
+sdist = { url = "https://files.pythonhosted.org/packages/57/8a/38a9129173b3df7550575a1609bdb68f2e9520d01ce6bae476c8ffacf14c/nomad_measurements-1.0.2.tar.gz", hash = "sha256:d99489c8210fc55087bd361cc19aa5cb72abfd74171d6ea1569a1f9bac309d61", size = 7396076 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d4/1e/dd0fc0656efad2dc0d9482073cc1595e521510c4c1c64e8e352ab6079bc2/nomad_measurements-0.1.0-py3-none-any.whl", hash = "sha256:e3b6ebff6381f1294a886516e5fb32b7904b129e9c75971a1d7c061e6acffb5c", size = 28067 },
+    { url = "https://files.pythonhosted.org/packages/ea/51/8a35709f53946598995052a1899c7705e578a15da791f4e59f5ff250f75a/nomad_measurements-1.0.2-py3-none-any.whl", hash = "sha256:87f05e9430ca402b599c5845cb43d6a53605cad59dba2be580cdc27e8129d33d", size = 24340 },
 ]
 
 [[package]]
