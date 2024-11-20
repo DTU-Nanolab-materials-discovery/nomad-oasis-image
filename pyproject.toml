@@ -39,8 +39,8 @@ plugins = [
   "nomad-parser-plugins-atomistic>=1.0",
   "nomad-parser-plugins-workflow>=1.0",
   "nomad-parser-plugins-database>=1.0",
-  "nomad-material-processing==0.1.0",
-  "nomad-measurements==1.0.2",
+  "nomad-material-processing==1.0.4",
+  "nomad-measurements==1.0.4",
   "nomad-dtu-nanolab-plugin",
 ]
 jupyter = []
@@ -54,7 +54,7 @@ constraint-dependencies = ["hyperspy>=1.7.6"]
 prerelease = "disallow"
 
 [tool.uv.sources]
-nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git", rev = "v0.3.4" }
+nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git", rev = "v0.3.7" }
 
 [tool.setuptools.packages.find]
 exclude = ["gui*", "docs*", "config*"]
