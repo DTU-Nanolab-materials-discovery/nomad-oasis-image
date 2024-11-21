@@ -54,13 +54,35 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     cd nomad-oasis-image
     ```
 
-3. _On Linux only,_ recursively change the owner of the `.volumes` directory to the nomad user (1000)
+3. Create `.volumes` directories
+
+    Since we are using a symlink for the file system on the production server the directory structure in the `.volumes` directory cannot be version controlled.
+
+    The following directories need to be created for running the oasis
+
+    ```
+    .volumes
+    ├── fs
+    │   ├── north
+    │   │   └── users
+    │   ├── public
+    │   ├── staging
+    │   └── tmp
+    └── mongo
+    ```
+
+    There is a bash script for doing this on Linux:
+    ```sh
+    source ./scripts/create-volumes.sh
+    ```
+
+4. _On Linux only,_ recursively change the owner of the `.volumes` directory to the nomad user (1000)
 
     ```sh
     sudo chown -R 1000 .volumes
     ```
 
-4. Pull the images specified in the `docker-compose.yaml`
+5. Pull the images specified in the `docker-compose.yaml`
 
     Note that the image needs to be public or you need to provide a PAT (see "Important" note above).
 
@@ -68,19 +90,19 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     docker compose pull
     ```
 
-5. And run it with docker compose in detached (--detach or -d) mode
+6. And run it with docker compose in detached (--detach or -d) mode
 
     ```sh
     docker compose up -d
     ```
 
-6. Optionally you can now test that NOMAD is running with
+7. Optionally you can now test that NOMAD is running with
 
     ```
     curl localhost/nomad-oasis/alive
     ```
 
-7. Finally, open [http://localhost/nomad-oasis](http://localhost/nomad-oasis) in your browser to start using your new NOMAD Oasis.
+8. Finally, open [http://localhost/nomad-oasis](http://localhost/nomad-oasis) in your browser to start using your new NOMAD Oasis.
 
     Whenever you update your image you need to shut down NOMAD using
 
@@ -88,7 +110,7 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     docker compose down
     ```
 
-    and then repeat steps 4. and 5. above.
+    and then repeat steps 5. and 6. above.
 
 #### NOMAD Remote Tools Hub (NORTH)
 
