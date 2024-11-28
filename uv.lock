@@ -2512,6 +2512,7 @@ version = "0.1"
 source = { editable = "." }
 dependencies = [
     { name = "nomad-lab", extra = ["infrastructure", "parsing"] },
+    { name = "setuptools" },
 ]
 
 [package.optional-dependencies]
@@ -2557,6 +2558,7 @@ requires-dist = [
     { name = "nomad-schema-plugin-run", marker = "extra == 'plugins'", specifier = ">=1.0.1" },
     { name = "nomad-schema-plugin-simulation-workflow", marker = "extra == 'plugins'", specifier = ">=1.0.1" },
     { name = "nomad-simulations", marker = "extra == 'plugins'", specifier = "==0.0.1" },
+    { name = "setuptools" },
 ]
 
 [[package]]
