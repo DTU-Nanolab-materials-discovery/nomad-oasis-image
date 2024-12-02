@@ -29,3 +29,9 @@ mongo:
 elastic:
   entries_index: nomad_oasis_entries_v1
   materials_index: nomad_oasis_materials_v1
+
+plugins:
+  entry_points:
+    exclude:
+      - apps/3_experiment/2_eels
+      - nomad_measurements.xrd:parser
