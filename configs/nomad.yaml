@@ -35,3 +35,4 @@ plugins:
     exclude:
       - apps/3_experiment/2_eels
       - nomad_measurements.xrd:parser
+      - nomad_analysis.jupyter:schema
