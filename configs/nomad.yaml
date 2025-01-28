@@ -8,6 +8,9 @@ oasis:
   is_oasis: true
   uses_central_user_management: true
 
+client:
+  url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
+
 north:
   jupyterhub_crypt_key: "978bfb2e13a8448a253c629d8dd84ff89587f30e635b753153960930cad9d36d"
   tools:
@@ -17,7 +20,7 @@ north:
 
 meta:
   deployment: "oasis"
-  deployment_url: "https://my-oasis.org/api"
+  deployment_url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
   maintainer_email: "me@my-oasis.org"
 
 logstash:
