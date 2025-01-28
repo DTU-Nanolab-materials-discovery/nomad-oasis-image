@@ -1,5 +1,5 @@
 services:
-  api_host: "localhost"
+  api_host: "nomad.nanolab.dtu.dk"
   api_base_path: "/nomad-oasis"
   upload_limit: 1000
   upload_members_group_search_enabled: true
