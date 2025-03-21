@@ -26,7 +26,7 @@ repository = "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-ima
 
 [project.optional-dependencies]
 plugins = [
-  "nomad-simulations==0.0.1",
+  "nomad-simulations>=0.0.1",
   "nomad-schema-plugin-run>=1.0.1",
   "nomad-schema-plugin-simulation-workflow>=1.0.1",
   "nomad-normalizer-plugin-bandstructure>=1.0",
