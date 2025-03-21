@@ -26,6 +26,7 @@ env:
     atomisticparsers
     nomad_aitoolkit
     pynxtools_igor
+    nomad_analysis
 
 permissions:
   contents: write

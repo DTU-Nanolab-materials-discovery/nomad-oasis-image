@@ -2635,15 +2635,15 @@ wheels = [
 
 [[package]]
 name = "nomad-simulations"
-version = "0.0.1"
+version = "0.3.2"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "matid" },
     { name = "nomad-lab" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/54/95/d61978fa03a9e2f4bdbe1c3e9290965e2dfd05a145235eee837a2decbba4/nomad_simulations-0.0.1.tar.gz", hash = "sha256:83131b7697722c20c712a1ad32e5c0f9b57ae8cba73aa50bac6d55d3a2562164", size = 577188 }
+sdist = { url = "https://files.pythonhosted.org/packages/46/84/ff0de2a0513dd1943d964b02d334270b23b7e5e594166443ea4517a67776/nomad_simulations-0.3.2.tar.gz", hash = "sha256:84d830ebf80797774e3036401599d31d37558112337b6b1ee631cd51ee17763a", size = 601252 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/86/ee/6c01e4f2552596d0546b1034b33c6bcc0176e2896dafb39147e9737e2b24/nomad_simulations-0.0.1-py3-none-any.whl", hash = "sha256:f8dcfbe78921d75a0d6c24ffaf214f8a6f0fb0ec0ba37a1206f267467462076a", size = 84261 },
+    { url = "https://files.pythonhosted.org/packages/53/7b/b4c43a351919c6c74d3dc8fe118845cd89c1d18272a378ba6baa708526eb/nomad_simulations-0.3.2-py3-none-any.whl", hash = "sha256:07d21eaecc5fb0b00c9528e2634acef903d3b18ac6b5a88f8c0c1d95ae5967a0", size = 96729 },
 ]
 
 [[package]]
