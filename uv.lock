@@ -2263,7 +2263,7 @@ requires-dist = [
     { name = "nomad-parser-plugins-workflow", marker = "extra == 'plugins'", specifier = ">=1.0" },
     { name = "nomad-schema-plugin-run", marker = "extra == 'plugins'", specifier = ">=1.0.1" },
     { name = "nomad-schema-plugin-simulation-workflow", marker = "extra == 'plugins'", specifier = ">=1.0.1" },
-    { name = "nomad-simulations", marker = "extra == 'plugins'", specifier = "==0.0.1" },
+    { name = "nomad-simulations", marker = "extra == 'plugins'", specifier = ">=0.0.1" },
     { name = "setuptools" },
 ]
 provides-extras = ["plugins", "jupyter", "dev"]
