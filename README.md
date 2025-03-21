@@ -25,8 +25,10 @@ In this README you will find instructions for:
 1. [Deploying the distribution](#deploying-the-distribution)
 2. [Adding a plugin](#adding-a-plugin)
 3. [Using the jupyter image](#the-jupyter-image)
-4. [Updating the distribution from the template](#updating-the-distribution-from-the-template)
-5. [Solving common issues](#faqtrouble-shooting)
+4. [Automated unit and example upload tests in CI](#automated-unit-and-example-upload-tests-in-ci)
+5. [Setup regular package updates with Dependabot](#set-up-regular-package-updates-with-dependabot)
+6. [Updating the distribution from the template](#updating-the-distribution-from-the-template)
+7. [Solving common issues](#faqtrouble-shooting)
 
 ## Deploying the distribution
 
@@ -104,13 +106,20 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
 
 8. Finally, open [http://localhost/nomad-oasis](http://localhost/nomad-oasis) in your browser to start using your new NOMAD Oasis.
 
-    Whenever you update your image you need to shut down NOMAD using
+#### Updating the image
+1. Whenever you update your image you need to shut down NOMAD using
 
     ```sh
     docker compose down
     ```
 
-    and then repeat steps 5. and 6. above.
+    and then repeat steps 4. and 5. above.
+   
+2. You can remove unused images to free up space by running
+
+    ```sh
+    docker image prune -a
+    ```
 
 #### NOMAD Remote Tools Hub (NORTH)
 
@@ -209,6 +218,23 @@ jupyter = [
 ]
 ```
 
+## Automated Unit and Example Upload Tests in CI
+
+By default, all unit tests from every plugin are executed to ensure system stability and catch potential issues early. These tests validate core functionality and help maintain consistency across different plugins.
+
+In addition to unit tests, the pipeline also verifies that all example uploads can be processed correctly. This ensures that any generated entries do not contain error messages, providing confidence that data flows through the system as expected.
+
+For example upload tests, the CI uses the image built in the Build Image step. It then runs the Docker container and starts up the application to confirm that it functions correctly. This approach ensures that if the pipeline passes, the app is more likely to run smoothly in a Dockerized environment on a server, not just locally.
+
+If you need to disable tests for specific plugins, update the **PLUGIN_TESTS_PLUGINS_TO_SKIP** variable in [.github/workflows/docker-publish.yml](./.github/workflows/docker-publish.yml#L19) by adding the plugin names to the existing list.
+
+## Set Up Regular Package Updates with Dependabot
+
+Dependabot is already configured in the repository’s CI setup, but you need to enable it manually in the repository settings.
+
+To enable Dependabot, go to Settings > Code security and analysis in your GitHub repository. From there, turn on Dependabot alerts and version updates. Once enabled, Dependabot will automatically check for dependency updates and create pull requests when new versions are available.
+
+This automated process helps ensure that your dependencies stay up to date, improving security and reducing the risk of vulnerabilities.
 
 ## Updating the distribution from the template
 

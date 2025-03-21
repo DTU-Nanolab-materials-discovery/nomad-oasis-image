@@ -1,6 +1,8 @@
 [build-system]
-requires = ["setuptools>=64"]
+requires = ["setuptools>=64", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
 
 [project]
 classifiers = [
@@ -13,11 +15,14 @@ classifiers = [
 ]
 name = "nomad-distribution"
 description = "nomad distribution template"
-version = "0.1"
+dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
 dependencies = ["nomad-lab[parsing, infrastructure]>=1.3.4", "setuptools"]
+
+[project.urls]
+repository = "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-image"
 
 [project.optional-dependencies]
 plugins = [
