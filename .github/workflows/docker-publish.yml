@@ -27,6 +27,7 @@ env:
     nomad_aitoolkit
     pynxtools_igor
     nomad_analysis
+    electronicparsers
 
 permissions:
   contents: write
