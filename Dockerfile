@@ -142,6 +142,9 @@ RUN apt-get update \
 USER ${NB_UID}
 WORKDIR "${HOME}"
 
+# Temporarily hardcode keycloak environment variable
+ENV NOMAD_oasis_uses_central_user_management=True
+
 COPY --from=uv_image /uv /bin/uv
 
 ARG SETUPTOOLS_SCM_PRETEND_VERSION_FOR_NOMAD_DISTRIBUTION='0.0'
