@@ -2206,7 +2206,7 @@ plugins = [
 
 [package.metadata]
 requires-dist = [
-    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.3.44" },
+    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.3.45" },
     { name = "nomad-lab", extras = ["dev", "infrastructure", "parsing"], marker = "extra == 'dev'", specifier = ">=1.3.4" },
     { name = "nomad-lab", extras = ["infrastructure", "parsing"], specifier = ">=1.3.4" },
     { name = "nomad-material-processing", marker = "extra == 'plugins'", specifier = "==1.0.4" },
@@ -2242,8 +2242,8 @@ wheels = [
 
 [[package]]
 name = "nomad-dtu-nanolab-plugin"
-version = "0.3.44"
-source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.3.44#0975683fe798fdd46f7a2334a38b4582c3a49b85" }
+version = "0.3.45"
+source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.3.45#3ca460906c20ee9b74fbe19d4fdafbbb6f0261a8" }
 dependencies = [
     { name = "fairmat-readers-xrd" },
     { name = "httpx" },
