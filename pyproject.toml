@@ -55,7 +55,7 @@ override-dependencies = ["jsonschema==4.23"]
 prerelease = "disallow"
 
 [tool.uv.sources]
-nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git", rev = "973fa0bf2df149d6ce999241fdce3872f91e3faf"}
+nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git", rev = "973fa0b"}
 
 [tool.setuptools.packages.find]
 exclude = ["gui*", "docs*", "config*"]
