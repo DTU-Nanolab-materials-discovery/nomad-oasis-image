@@ -41,4 +41,4 @@ plugins:
       - nomad_analysis.jupyter:schema
     options:
       nomad_dtu_nanolab_plugin.schema_packages:sputtering:
-        overwrite_libraries: true
+        overwrite_libraries: false
