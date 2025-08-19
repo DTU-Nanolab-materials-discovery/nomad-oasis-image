@@ -39,3 +39,6 @@ plugins:
       - apps/3_experiment/2_eels
       - nomad_measurements.xrd:parser
       - nomad_analysis.jupyter:schema
+    options:
+      nomad_dtu_nanolab_plugin.schema_packages:sputtering:
+        overwrite_libraries: true
