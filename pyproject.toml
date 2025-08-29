@@ -59,3 +59,4 @@ nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-dis
 
 [tool.setuptools.packages.find]
 exclude = ["gui*", "docs*", "config*"]
+
