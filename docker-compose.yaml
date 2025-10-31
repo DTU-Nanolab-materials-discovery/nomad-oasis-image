@@ -4,7 +4,7 @@ services:
   # broker for celery
   rabbitmq:
     restart: unless-stopped
-    image: rabbitmq:3.11.5
+    image: docker.io/rabbitmq:3.11.5-alpine
     container_name: nomad_oasis_rabbitmq
     environment:
       - RABBITMQ_ERLANG_COOKIE=SWQOKODSQALRPCLNMEQG
@@ -23,7 +23,7 @@ services:
   # the search engine
   elastic:
     restart: unless-stopped
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.28
     container_name: nomad_oasis_elastic
     environment:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
@@ -45,7 +45,7 @@ services:
   # the user data db
   mongo:
     restart: unless-stopped
-    image: mongo:5.0.6
+    image: docker.io/mongo:5.0.6
     container_name: nomad_oasis_mongo
     environment:
       - MONGO_DATA_DIR=/data/db
@@ -67,18 +67,56 @@ services:
       retries: 30
       start_period: 10s
 
+  postgresql:
+    container_name: nomad_oasis_postgresql
+    environment:
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_USER: temporal
+    image: postgres:16
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+
+  temporal:
+    container_name: nomad_oasis_temporal
+    depends_on:
+      - postgresql
+    environment:
+      - DB=postgres12
+      - DB_PORT=5432
+      - POSTGRES_USER=temporal
+      - POSTGRES_PWD=temporal
+      - POSTGRES_SEEDS=postgresql
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CLI_ADDRESS=temporal:7233
+    image: docker.io/temporalio/auto-setup:1.28
+    healthcheck:
+      test: >
+        bash -c '
+          temporal operator cluster health --address $$(hostname -i):7233 |
+          grep -q "SERVING"
+        '
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
   # nomad worker (processing)
   worker:
     restart: unless-stopped
     image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
-    container_name: nomad_oasis_worker
+    platform: linux/amd64
     environment:
       NOMAD_SERVICE: nomad_oasis_worker
       NOMAD_RABBITMQ_HOST: rabbitmq
       NOMAD_ELASTIC_HOST: elastic
       NOMAD_MONGO_HOST: mongo
       NOMAD_LOGSTASH_HOST: logtransfer
+      NOMAD_TEMPORAL_HOST: temporal
+    env_file:
+      - ./.env
     depends_on:
+      temporal:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
       elastic:
@@ -88,12 +126,100 @@ services:
     volumes:
       # - ./configs/nomad.yaml:/app/nomad.yaml
       - ./.volumes/fs:/app/.volumes/fs
-    command: python -m celery -A nomad.processing worker -l info -Q celery
+    command: python -m nomad.cli admin run action-internal-worker
+    healthcheck:
+      # See https://keithtenzer.com/temporal/Deploying_Temporal_Worker_on_Kubernetes/#liveliness-and-readiness-probes
+      # for rationale on using 'ls /' as a liveness/readiness probe for Temporal workers.
+      test: ls /
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          cpus: "4.0" # Maximum 4 CPU cores
+          memory: 8G # Maximum 8GB RAM
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 15
+        window: 1800s
+
+  ## nomad gpu worker (actions)
+  # gpu_worker:
+  #   restart: unless-stopped
+  #   image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/gpu-action:main
+  #   platform: linux/amd64
+  #   container_name: nomad_oasis_gpu_worker
+  #   deploy:
+  #     replicas: 1
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all # Use all available GPUs
+  #             capabilities: [gpu]
+  #   environment:
+  #     NOMAD_SERVICE: nomad_oasis_gpu_worker
+  #     NOMAD_RABBITMQ_HOST: rabbitmq
+  #     NOMAD_ELASTIC_HOST: elastic
+  #     NOMAD_MONGO_HOST: mongo
+  #     NOMAD_LOGSTASH_HOST: logtransfer
+  #     NOMAD_TEMPORAL_HOST: temporal
+  #   depends_on:
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     elastic:
+  #       condition: service_healthy
+  #     mongo:
+  #       condition: service_healthy
+  #     temporal:
+  #       condition: service_healthy
+  #   volumes:
+  #     # - ./configs/nomad.yaml:/app/nomad.yaml
+  #     - ./.volumes/fs:/app/.volumes/fs
+  #   command: python -m nomad.cli admin run action-gpu-worker
+
+  # nomad cpu worker (actions)
+  cpu_worker:
+    restart: unless-stopped
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/cpu-action:main
+    platform: linux/amd64
+    container_name: nomad_oasis_cpu_worker
+    environment:
+      NOMAD_SERVICE: nomad_oasis_cpu_worker
+      NOMAD_RABBITMQ_HOST: rabbitmq
+      NOMAD_ELASTIC_HOST: elastic
+      NOMAD_MONGO_HOST: mongo
+      NOMAD_LOGSTASH_HOST: logtransfer
+      NOMAD_TEMPORAL_HOST: temporal
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "2.0" # Maximum 2 CPU cores
+          memory: 8G # Maximum 8GB RAM
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+      temporal:
+        condition: service_healthy
+    volumes:
+      # - ./configs/nomad.yaml:/app/nomad.yaml
+      - ./.volumes/fs:/app/.volumes/fs
+    command: python -m nomad.cli admin run action-cpu-worker
 
   # nomad app (api + proxy)
   app:
     restart: unless-stopped
     image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    platform: linux/amd64
     container_name: nomad_oasis_app
     environment:
       NOMAD_SERVICE: nomad_oasis_app
@@ -104,7 +230,12 @@ services:
       NOMAD_MONGO_HOST: mongo
       NOMAD_LOGSTASH_HOST: logtransfer
       NOMAD_NORTH_HUB_HOST: north
+      NOMAD_TEMPORAL_HOST: temporal
+    env_file:
+      - ./.env
     depends_on:
+      temporal:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
       elastic:
@@ -133,6 +264,7 @@ services:
   north:
     restart: unless-stopped
     image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    platform: linux/amd64
     container_name: nomad_oasis_north
     environment:
       NOMAD_SERVICE: nomad_oasis_north
@@ -145,6 +277,8 @@ services:
       NOMAD_RABBITMQ_HOST: rabbitmq
       NOMAD_ELASTIC_HOST: elastic
       NOMAD_MONGO_HOST: mongo
+    env_file:
+      - ./.env
     volumes:
       # - ./configs/nomad.yaml:/app/nomad.yaml
       - ./.volumes/fs:/app/.volumes/fs
@@ -168,11 +302,14 @@ services:
   logtransfer:
     restart: unless-stopped
     image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    platform: linux/amd64
     container_name: nomad_oasis_logtransfer
     environment:
       NOMAD_SERVICE: nomad_oasis_logtransfer
       NOMAD_ELASTIC_HOST: elastic
       NOMAD_MONGO_HOST: mongo
+    env_file:
+      - ./.env
     depends_on:
       elastic:
         condition: service_healthy
@@ -187,11 +324,17 @@ services:
   # nomad proxy (a reverse proxy for nomad)
   proxy:
     restart: unless-stopped
-    image: nginx:1.13.9-alpine
+    image: docker.io/nginx:1.27.4-alpine
     container_name: nomad_oasis_proxy
     command: nginx -g 'daemon off;'
     volumes:
-      - ./configs/nginx.conf:/etc/nginx/conf.d/default.conf
+      # Shared config
+      - ./configs/nginx_base_conf:/etc/nginx/conf.d/nginx_base_conf:ro
+      # HTTP
+      - ./configs/nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
+      # HTTPS (you need to have an SSL certificate)
+      # - ./configs/nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./ssl:/etc/nginx/ssl:ro
     depends_on:
       app:
         condition: service_healthy
@@ -201,10 +344,12 @@ services:
         condition: service_healthy
     ports:
       - 80:80
+      - 443:443
 
   # jupyterlab image: (this is only used to pull the image, no service is run for this)
   jupyterlab_image:
     image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
+    platform: linux/amd64
     container_name: nomad_jupyter_image
     pull_policy: always
     entrypoint: ["true"]
@@ -220,7 +365,8 @@ volumes:
     name: "nomad_oasis_rabbitmq"
   keycloak:
     name: "nomad_oasis_keycloak"
-
+  postgresql:
+    name: "nomad_oasis_postgresql"
 networks:
   default:
     name: nomad_oasis_network
