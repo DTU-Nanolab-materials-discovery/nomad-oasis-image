@@ -2615,7 +2615,7 @@ wheels = [
 
 [[package]]
 name = "nomad-parser-plugins-electronic"
-version = "1.0.4"
+version = "1.0.11"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "h5py" },
@@ -2625,12 +2625,14 @@ dependencies = [
     { name = "nomad-parser-plugins-simulation" },
     { name = "nomad-schema-plugin-run" },
     { name = "nomad-schema-plugin-simulation-workflow" },
+    { name = "numpy", version = "1.26.4", source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }, marker = "python_full_version < '3.13'" },
+    { name = "numpy", version = "2.3.4", source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }, marker = "python_full_version >= '3.13'" },
     { name = "pydantic" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b1/3c/650029be76526cae78ae3f5847bdda1c5f8f8fed78d2661f13422028939b/nomad_parser_plugins_electronic-1.0.4.tar.gz", hash = "sha256:39008c559ab7e264b4b7d77ec088dc6bde05f9c853fa53bbbb1dfed5ac6d6225", size = 82890555, upload-time = "2025-03-19T14:24:09.187Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4d/91/66a65bffdb1422292f89f644d8e1f5b8b225f2fcd5aea5a8c6f011d759a2/nomad_parser_plugins_electronic-1.0.11.tar.gz", hash = "sha256:aded0d40280e9f29efceec3f5109be5036a7336122444504d0d8f67bc18ab819", size = 82905851, upload-time = "2025-10-31T13:34:12.222Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/05/1f/f8c90cbb91f5bed584187e614e5c18f3d55306eda727d51dead00ae4c423/nomad_parser_plugins_electronic-1.0.4-py3-none-any.whl", hash = "sha256:2489e8a448dc9bbd1f02a995e92359f00def6ebb8e39ca8eb040ec2ae9e19bee", size = 1129153, upload-time = "2025-03-19T14:24:06.102Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/94/3061a6545125c2afeaa8e426e4075b353b297bf679040b5acc135c1031ad/nomad_parser_plugins_electronic-1.0.11-py3-none-any.whl", hash = "sha256:0de1cbc897002329ee980c8a75fefcf2678d22b3b9fa6d6fd7b7f28bca9146c9", size = 1132653, upload-time = "2025-10-31T13:34:08.824Z" },
 ]
 
 [[package]]
