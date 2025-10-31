@@ -86,15 +86,6 @@ wheels = [
 ]
 
 [[package]]
-name = "anytree"
-version = "2.13.0"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/bc/a8/eb55fab589c56f9b6be2b3fd6997aa04bb6f3da93b01154ce6fc8e799db2/anytree-2.13.0.tar.gz", hash = "sha256:c9d3aa6825fdd06af7ebb05b4ef291d2db63e62bb1f9b7d9b71354be9d362714", size = 48389, upload_time = "2025-04-08T21:06:30.662Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/98/f6aa7fe0783e42be3093d8ef1b0ecdc22c34c0d69640dfb37f56925cb141/anytree-2.13.0-py3-none-any.whl", hash = "sha256:4cbcf10df36b1f1cba131b7e487ff3edafc9d6e932a3c70071b5b768bab901ff", size = 45077, upload_time = "2025-04-08T21:06:29.494Z" },
-]
-
-[[package]]
 name = "ase"
 version = "3.22.1"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
@@ -459,18 +450,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593, upload_time = "2024-12-21T18:38:44.339Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7e/d4/7ebdbd03970677812aac39c869717059dbb71a4cfc033ca6e5221787892c/click-8.1.8-py3-none-any.whl", hash = "sha256:63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2", size = 98188, upload_time = "2024-12-21T18:38:41.666Z" },
-]
-
-[[package]]
-name = "click-default-group"
-version = "1.2.4"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
-dependencies = [
-    { name = "click" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/1d/ce/edb087fb53de63dad3b36408ca30368f438738098e668b78c87f93cd41df/click_default_group-1.2.4.tar.gz", hash = "sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e", size = 3505, upload_time = "2023-08-04T07:54:58.425Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2c/1a/aff8bb287a4b1400f69e09a53bd65de96aa5cee5691925b38731c67fc695/click_default_group-1.2.4-py2.py3-none-any.whl", hash = "sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f", size = 4123, upload_time = "2023-08-04T07:54:56.875Z" },
 ]
 
 [[package]]
@@ -1178,18 +1157,6 @@ source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages
 sdist = { url = "https://files.pythonhosted.org/packages/f1/70/7703c29685631f5a7590aa73f1f1d3fa9a380e654b86af429e0934a32f7d/idna-3.10.tar.gz", hash = "sha256:12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9", size = 190490, upload_time = "2024-09-15T18:07:39.745Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl", hash = "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3", size = 70442, upload_time = "2024-09-15T18:07:37.964Z" },
-]
-
-[[package]]
-name = "importlib-metadata"
-version = "8.7.0"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
-dependencies = [
-    { name = "zipp" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/76/66/650a33bd90f786193e4de4b3ad86ea60b53c89b669a5c7be931fac31cdb0/importlib_metadata-8.7.0.tar.gz", hash = "sha256:d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000", size = 56641, upload_time = "2025-04-27T15:29:01.736Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/20/b0/36bd937216ec521246249be3bf9855081de4c5e06a0c9b4219dbeda50373/importlib_metadata-8.7.0-py3-none-any.whl", hash = "sha256:e5dd1551894c77868a30651cef00984d50e1002d06942a7101d34870c5f02afd", size = 27656, upload_time = "2025-04-27T15:29:00.214Z" },
 ]
 
 [[package]]
@@ -2127,11 +2094,11 @@ plugins = [
 
 [package.metadata]
 requires-dist = [
-    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.3" },
+    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.4" },
     { name = "nomad-lab", extras = ["dev", "infrastructure", "parsing"], marker = "extra == 'dev'", specifier = ">=1.3.16" },
     { name = "nomad-lab", extras = ["infrastructure", "parsing"], specifier = ">=1.3.16" },
     { name = "nomad-material-processing", marker = "extra == 'plugins'", specifier = "==1.0.4" },
-    { name = "nomad-measurements", marker = "extra == 'plugins'", specifier = ">=1.3.0" },
+    { name = "nomad-measurements", marker = "extra == 'plugins'", specifier = ">=1.3.2" },
     { name = "nomad-normalizer-plugin-bandstructure", marker = "extra == 'plugins'", specifier = ">=1.0" },
     { name = "nomad-normalizer-plugin-dos", marker = "extra == 'plugins'", specifier = ">=1.0" },
     { name = "nomad-normalizer-plugin-simulation-workflow", marker = "extra == 'plugins'", specifier = ">=1.0" },
@@ -2163,8 +2130,8 @@ wheels = [
 
 [[package]]
 name = "nomad-dtu-nanolab-plugin"
-version = "0.4.3"
-source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.3#2be2014e955671bf3d96c1388db7920f98be824c" }
+version = "0.4.4"
+source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.4#e41481246d016452f3581b978bcc023b35599f6a" }
 dependencies = [
     { name = "fairmat-readers-xrd" },
     { name = "httpx" },
@@ -2280,17 +2247,16 @@ wheels = [
 
 [[package]]
 name = "nomad-measurements"
-version = "1.3.0"
+version = "1.3.2"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "fairmat-readers-transmission" },
     { name = "fairmat-readers-xrd" },
     { name = "nomad-lab" },
-    { name = "pynxtools" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/87/6d/0a27e0e3368eb977c89fec888efbf41c66c2b984df743f8e29b61bc78129/nomad_measurements-1.3.0.tar.gz", hash = "sha256:fb871f76cf358c86b6ff3ed70483da03a0df6c1dd84096f301dc3798d902d51f", size = 9448515, upload_time = "2025-08-15T09:23:04.755Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1c/ff/5b41fa2a1ed614324893346f4c6b4918303e40234ccac0e064c1d0d56543/nomad_measurements-1.3.2.tar.gz", hash = "sha256:1ca0baf03621f570393868dc0e1a2968d8f8c91486cb6fd8ebc59e53700c52bb", size = 9449677, upload_time = "2025-10-31T07:18:07.892Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ad/f9/cb5d8c9c52b6d24a0a9346466e2af87601d464944a991e46572b81fb4e25/nomad_measurements-1.3.0-py3-none-any.whl", hash = "sha256:23547545d94528c60538bd4a78259cae055d252c7f5878b2f1441d1bca769832", size = 64242, upload_time = "2025-08-15T09:23:03.156Z" },
+    { url = "https://files.pythonhosted.org/packages/d9/73/d62186275469f90d13fda531fd404b69eca9bc0aa82442106dcb312a2a44/nomad_measurements-1.3.2-py3-none-any.whl", hash = "sha256:17729c966e97a60afcb30114bbfd0f981334336f0c5099a2ed52842536917e5d", size = 64698, upload_time = "2025-10-31T07:18:06.104Z" },
 ]
 
 [[package]]
@@ -3166,31 +3132,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pynxtools"
-version = "0.11.1"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
-dependencies = [
-    { name = "anytree" },
-    { name = "ase" },
-    { name = "click" },
-    { name = "click-default-group" },
-    { name = "h5py" },
-    { name = "importlib-metadata" },
-    { name = "lxml" },
-    { name = "mergedeep" },
-    { name = "numpy" },
-    { name = "pandas" },
-    { name = "pint" },
-    { name = "pyyaml" },
-    { name = "toposort" },
-    { name = "xarray" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/86/a1/e23d31b68c0dc9579cf2f6ee834d285e205afbb0253419142a08d4015868/pynxtools-0.11.1.tar.gz", hash = "sha256:cdc09b9ec7919dbc6221633f0b4ff7b2fd40e4366738228e6c6c72df977d7111", size = 5352988, upload_time = "2025-08-07T14:42:41.845Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/1f/6d/be4c51b1cdb621708b8eb4331125e9a25282cc2e5caf6b3139dd14ad759a/pynxtools-0.11.1-py3-none-any.whl", hash = "sha256:37547fd78c68dddf690d40b2233ac5660b642283708ea0c34f9ab7a75f0c4623", size = 5719208, upload_time = "2025-08-07T14:42:39.676Z" },
-]
-
-[[package]]
 name = "pyparsing"
 version = "3.2.1"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
@@ -3973,15 +3914,6 @@ wheels = [
 ]
 
 [[package]]
-name = "toposort"
-version = "1.10"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/69/19/8e955d90985ecbd3b9adb2a759753a6840da2dff3c569d412b2c9217678b/toposort-1.10.tar.gz", hash = "sha256:bfbb479c53d0a696ea7402601f4e693c97b0367837c8898bc6471adfca37a6bd", size = 11132, upload_time = "2023-02-27T13:59:51.834Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/17/57b444fd314d5e1593350b9a31d000e7411ba8e17ce12dc7ad54ca76b810/toposort-1.10-py3-none-any.whl", hash = "sha256:cbdbc0d0bee4d2695ab2ceec97fe0679e9c10eab4b2a87a9372b929e70563a87", size = 8500, upload_time = "2023-02-25T20:07:06.538Z" },
-]
-
-[[package]]
 name = "tornado"
 version = "6.4.2"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
@@ -4297,15 +4229,6 @@ source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages
 sdist = { url = "https://files.pythonhosted.org/packages/39/0d/40df5be1e684bbaecdb9d1e0e40d5d482465de6b00cbb92b84ee5d243c7f/xmltodict-0.13.0.tar.gz", hash = "sha256:341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56", size = 33813, upload_time = "2022-05-08T07:00:04.916Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/94/db/fd0326e331726f07ff7f40675cd86aa804bfd2e5016c727fa761c934990e/xmltodict-0.13.0-py2.py3-none-any.whl", hash = "sha256:aa89e8fd76320154a40d19a0df04a4695fb9dc5ba977cbb68ab3e4eb225e7852", size = 9971, upload_time = "2022-05-08T07:00:02.898Z" },
-]
-
-[[package]]
-name = "zipp"
-version = "3.23.0"
-source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e3/02/0f2892c661036d50ede074e376733dca2ae7c6eb617489437771209d4180/zipp-3.23.0.tar.gz", hash = "sha256:a07157588a12518c9d4034df3fbbee09c814741a33ff63c05fa29d26a2404166", size = 25547, upload_time = "2025-06-08T17:06:39.4Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl", hash = "sha256:071652d6115ed432f5ce1d34c336c0adfd6a884660d1e9712a256d3d3bd4b14e", size = 10276, upload_time = "2025-06-08T17:06:38.034Z" },
 ]
 
 [[package]]
