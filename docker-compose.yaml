@@ -150,7 +150,7 @@ services:
   ## nomad gpu worker (actions)
   # gpu_worker:
   #   restart: unless-stopped
-  #   image: ghcr.io/fairmat-nfdi/nomad-distro-template/gpu-action:main
+  #   image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/gpu-action:main
   #   platform: linux/amd64
   #   container_name: nomad_oasis_gpu_worker
   #   deploy:
@@ -185,7 +185,7 @@ services:
   # # nomad cpu worker (actions)
   # cpu_worker:
   #   restart: unless-stopped
-  #   image: ghcr.io/fairmat-nfdi/nomad-distro-template/cpu-action:main
+  #   image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/cpu-action:main
   #   platform: linux/amd64
   #   container_name: nomad_oasis_cpu_worker
   #   environment:
