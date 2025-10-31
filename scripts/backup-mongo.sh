@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-BACKUP_DIR="/docker/nomad_oasis/.volumes/mongo"
+BACKUP_DIR="/docker/nomad-oasis/.volumes/mongo"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 CONTAINER_NAME="nomad_oasis_mongo"
 DATABASE_NAME="nomad_oasis_v1"
