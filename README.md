@@ -84,6 +84,26 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     sudo chown -R 1000 .volumes
     ```
 
+4. Create a file for environment variables
+  
+    Before running the containers, you should create a `.env` file in the root of the repository. This file is used to store sensitive information and is ignored by git.
+
+    At a minimum, you should add a secure secret for the API:
+
+    ```
+    NOMAD_SERVICES_API_SECRET='***'
+    ```
+
+    Make sure the `NOMAD_SERVICES_API_SECRET` is at least 32 characters long.
+
+    If you have bash available you can run this script:
+    
+    ```sh
+    sh generate_env.sh
+    ```
+
+    This will create a `.env` file with a randomly generated 64-character API secret. If the file already exists, you'll be prompted before overwriting it.
+
 5. Pull the images specified in the `docker-compose.yaml`
 
     Note that the image needs to be public or you need to provide a PAT (see "Important" note above).
@@ -92,29 +112,72 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     docker compose pull
     ```
 
-6. And run it with docker compose in detached (--detach or -d) mode
+6. Configuring Secure HTTP and HTTPS Connections
+
+   By default `docker-compose.yaml` uses the HTTP protocol for communication. This works for testing, but before entering production you must secure your setup with HTTPS; otherwise, any communication with the server—including credentials and sensitive data—can be compromised.
+
+   HTTPS requires a TLS certificate, which must be renewed periodically. Depending on your setup, you have several options:
+
+   1. You already have a certificate.
+
+      In this case, you just need the certificate and key files.
+
+   2. Free certificate from Let's Encrypt
+
+      [Let's Encrypt](https://letsencrypt.org/) provides free TLS certificates for those with a domain name. Follow their tutorials for instructions on generating a certificate.
+
+   3. Self-signed certificate
+
+      For testing, you can create a [self-signed certificate](https://en.wikipedia.org/wiki/Self-signed_certificate). Note that self-signed certificates are not recommended for production since they are not trusted by browsers. You can generate one with:
+
+      ```sh
+      mkdir ssl
+      openssl req -x509 -nodes -days 365 \
+        -newkey rsa:2048 \
+        -keyout ./ssl/selfsigned.key \
+        -out ./ssl/selfsigned.crt \
+        -subj "/CN=localhost"
+      ```
+
+   To start using a TLS certificate, update the `proxy` configuration in `docker-compose.yml`:
+   ```diff
+   - # HTTP
+   - - ./configs/nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
+
+   + # HTTPS
+   + - ./configs/nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
+   + - ./ssl:/etc/nginx/ssl:ro  # Your certificate files
+   ```
+
+7. And run it with docker compose in detached (--detach or -d) mode
 
     ```sh
     docker compose up -d
     ```
 
-7. Optionally you can now test that NOMAD is running with
+8. (Optional) You can now test that NOMAD is running with
 
-    ```
+    ```sh
+    # HTTP
     curl localhost/nomad-oasis/alive
+
+    # HTTPS (--insecure flag is only needed for a self-signed certificate)
+    curl --insecure https://localhost/nomad-oasis/alive
     ```
 
-8. Finally, open [http://localhost/nomad-oasis](http://localhost/nomad-oasis) in your browser to start using your new NOMAD Oasis.
+9. Finally, open [http://localhost/nomad-oasis](http://localhost/nomad-oasis) in your browser to start using your new NOMAD Oasis.
 
 #### Updating the image
-1. Whenever you update your image you need to shut down NOMAD using
+Any pushes to the main branch of this repository, such as when [adding a plugin](#adding-a-plugin), will trigger a pipeline that generates a new app and jupyter image.
+
+1. To update your local image you need to shut down NOMAD using
 
     ```sh
     docker compose down
     ```
 
     and then repeat steps 4. and 5. above.
-   
+
 2. You can remove unused images to free up space by running
 
     ```sh
@@ -132,7 +195,7 @@ systems docker gid. The user id 1000 is used as the nomad user inside all contai
 Please see the [Jupyter image](#the-jupyter-image) section below for more information on the jupyter NORTH image being generated in this repository.
 
 You can find more details on setting up and maintaining an Oasis in the NOMAD docs here:
-[nomad-lab.eu/prod/v1/docs/oasis/install.html](https://nomad-lab.eu/prod/v1/docs/oasis/install.html)
+[https://nomad-lab.eu/prod/v1/staging/docs/howto/oasis/configure.html](https://nomad-lab.eu/prod/v1/staging/docs/howto/oasis/configure.html)
 
 ### For an existing Oasis
 
@@ -150,6 +213,30 @@ volumes:
 ```
 
 To run the new image you can follow steps 5. and 6. [above](#for-a-new-oasis).
+
+## Configuring Worker Replicas and Resource Limits
+
+The `docker-compose.yaml` file is configured to run four worker replicas by default, with each limited to 4 CPU cores and 8GB of RAM. You can adjust these values to match the capacity of your server.
+
+The relevant configuration is located in the `worker` service definition within the `docker-compose.yaml` file:
+
+```yaml
+services:
+  worker:
+    ...
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          cpus: "4.0" # Maximum 4 CPU cores
+          memory: 8G # Maximum 8GB RAM
+```
+
+-   `replicas`: The number of container instances to run for the worker service.
+-   `cpus`: The maximum number of CPU cores the container can use.
+-   `memory`: The maximum amount of memory the container can use.
+
+Adjust these values based on your server's available resources to optimize performance.
 
 ## Adding a plugin
 
@@ -199,6 +286,13 @@ be generated.
 In addition to the Docker image for running the oasis, this repository also builds a custom NORTH image for running a jupyter hub with the installed plugins.
 This image has been added to the [`configs/nomad.yaml`](configs/nomad.yaml) during the initialization of this repository and should therefore already be available in your Oasis under "Analyze / NOMAD Remote Tools Hub / jupyter"
 
+We currently use `quay.io/jupyter/base-notebook:2025-04-14` as our base image for Jupyter. While it includes the necessary Python packages, it does not come with `R` or `Julia` pre-installed.
+If you need support for those languages, you can switch to `quay.io/jupyter/datascience-notebook:2025-04-04`, which includes both `R` and `Julia`.
+The Jupyter image does not include `gcc` or `build-essential` by default. If you want to allow users to install Python packages that require compilation while running a notebook, you'll need to install these tools in the [Dockerfile](./Dockerfile#L172) or switch the base image to `quay.io/jupyter/datascience-notebook:2025-04-04`.
+However, including these packages can increase the image size and may introduce security risks if arbitrary code is compiled at runtime.
+
+Note that the `base-notebook` image is more lightweight and uses less disk space compared to the `datascience-notebook` image.
+
 The image is quite large and might cause a timeout the first time it is run. In order to avoid this you can pre pull the image with:
 
 ```
@@ -226,7 +320,7 @@ In addition to unit tests, the pipeline also verifies that all example uploads c
 
 For example upload tests, the CI uses the image built in the Build Image step. It then runs the Docker container and starts up the application to confirm that it functions correctly. This approach ensures that if the pipeline passes, the app is more likely to run smoothly in a Dockerized environment on a server, not just locally.
 
-If you need to disable tests for specific plugins, update the **PLUGIN_TESTS_PLUGINS_TO_SKIP** variable in [.github/workflows/docker-publish.yml](./.github/workflows/docker-publish.yml#L19) by adding the plugin names to the existing list.
+If you need to disable tests for specific plugins, update the **PLUGIN_TESTS_PLUGINS_TO_SKIP** variable in [.github/workflows/docker-publish.yml](./.github/workflows/docker-publish.yml#L21) by adding the plugin names to the existing list.
 
 ## Set Up Regular Package Updates with Dependabot
 
@@ -236,11 +330,22 @@ To enable Dependabot, go to Settings > Code security and analysis in your GitHub
 
 This automated process helps ensure that your dependencies stay up to date, improving security and reducing the risk of vulnerabilities.
 
+## Customizing Documentation
+
+By default, documentation is built using the [nomad-docs](https://github.com/FAIRmat-NFDI/nomad-docs) repository. However, if you'd like to customize the documentation for your Oasis instance, you can easily do so.
+
+1. First, [fork the nomad-docs repository](https://github.com/FAIRmat-NFDI/nomad-docs/fork).
+2. Make your desired changes in your fork.
+3. Update the `NOMAD_DOCS_REPO` variable in the [.github/workflows/docker-publish.yml](./.github/workflows/docker-publish.yml#L19) file to point to the URL of your forked repository.
+
+This setup ensures that your custom documentation is used when building your Oasis.
+
+
 ## Updating the distribution from the template
 
 In order to update an existing distribution with any potential changes in the template you can add a new `git remote` for the template and merge with that one while allowing for unrelated histories:
 
-```
+```sh
 git remote add template https://github.com/FAIRmat-NFDI/nomad-distro-template
 git fetch template
 git merge template/main --allow-unrelated-histories
@@ -248,16 +353,22 @@ git merge template/main --allow-unrelated-histories
 
 Most likely this will result in some merge conflicts which will need to be resolved. At the very least the `Dockerfile` and GitHub workflows should be taken from "theirs":
 
-```
+```sh
 git checkout --theirs Dockerfile
 git checkout --theirs .github/workflows/docker-publish.yml
 ```
+
+The lock file merge conflicts can be resolved to use your versions instead of the template repository resolution.
+```sh
+git checkout --ours uv.lock
+```
+
 
 For detailed instructions on how to resolve the merge conflicts between different version we refer you to the latest template release [notes](https://github.com/FAIRmat-NFDI/nomad-distro-template/releases/latest)
 
 Once the merge conflicts are resolved you should add the changes and commit them
 
-```
+```sh
 git add -A
 git commit -m "Updated to new distribution version"
 ```
@@ -273,3 +384,19 @@ Most likely you have not made the package public or provided a personal access t
 You can read how to make your package public in the GitHub docs [here](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility)
 or how to configure a PAT (if you want to keep the distribution private) in the GitHub
 docs [here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic).
+
+## Enabling NOMAD Actions
+
+To enable NOMAD Actions, you need to decide whether you need a CPU worker, a GPU worker, or both, and then make the following changes:
+
+1.  **Enable the required worker service(s) in `docker-compose.yaml`:**
+
+    Uncomment the `cpu_worker` service, the `gpu_worker` service, or both in the `docker-compose.yaml` file depending on your needs.
+
+2.  **Enable the corresponding build step(s) in the Docker publish workflow:**
+
+    In the `.github/workflows/docker-publish.yml` file, uncomment the build step(s) corresponding to the worker(s) you enabled in the `docker-compose.yaml` file.
+
+3.  **Adjust deployment resources:**
+
+    If necessary, adjust the deployment resources (e.g., CPU, memory, replicas) for the enabled worker service(s) in the `docker-compose.yaml` file to match your server's capacity.
