@@ -217,6 +217,13 @@ jobs:
             exit 1
           fi
 
+      - name: Check installed packages in cpu-action container
+        run: |
+          if ! docker exec -it nomad_oasis_cpu_worker /opt/venv/bin/python -c "import tensorflow"; then
+            echo "TensorFlow is NOT installed in cpu-action container."
+            exit 1
+          fi
+
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
@@ -234,3 +241,4 @@ jobs:
         run: |
           export PLUGINS_STRING=$(echo "$PLUGIN_TESTS_PLUGINS_TO_SKIP" | tr '\n' ',' | sed 's/,$//')
           uv run --extra plugins pytest -p no:warnings -sv
+
