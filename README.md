@@ -23,12 +23,16 @@ and how to customize it through [adding plugins](#adding-a-plugin).
 
 In this README you will find instructions for:
 1. [Deploying the distribution](#deploying-the-distribution)
-2. [Adding a plugin](#adding-a-plugin)
-3. [Using the jupyter image](#the-jupyter-image)
-4. [Automated unit and example upload tests in CI](#automated-unit-and-example-upload-tests-in-ci)
-5. [Setup regular package updates with Dependabot](#set-up-regular-package-updates-with-dependabot)
-6. [Updating the distribution from the template](#updating-the-distribution-from-the-template)
-7. [Solving common issues](#faqtrouble-shooting)
+2. [Configuring Worker Replicas and Resource Limits](#configuring-worker-replicas-and-resource-limits)
+3. [Adding a plugin](#adding-a-plugin)
+4. [Using the jupyter image](#the-jupyter-image)
+5. [Automated unit and example upload tests in CI](#automated-unit-and-example-upload-tests-in-ci)
+6. [Setup regular package updates with Dependabot](#set-up-regular-package-updates-with-dependabot)
+7. [Customizing Documentation](#customizing-documentation)
+8. [Backing up the Oasis](#backing-up-the-oasis)
+9. [Enabling NOMAD Actions](#enabling-nomad-actions)
+10. [Updating the distribution from the template](#updating-the-distribution-from-the-template)
+11. [Solving common issues](#faqtrouble-shooting)
 
 ## Deploying the distribution
 
@@ -212,7 +216,31 @@ volumes:
   # - ./configs/nomad.yaml:/app/nomad.yaml
 ```
 
-To run the new image you can follow steps 5. and 6. [above](#for-a-new-oasis).
+To run the new image you can follow steps 5. and 7. [above](#for-a-new-oasis).
+
+## Configuring Worker Replicas and Resource Limits
+
+The `docker-compose.yaml` file is configured to run four worker replicas by default, with each limited to 4 CPU cores and 8GB of RAM. You can adjust these values to match the capacity of your server.
+
+The relevant configuration is located in the `worker` service definition within the `docker-compose.yaml` file:
+
+```yaml
+services:
+  worker:
+    ...
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          cpus: "4.0" # Maximum 4 CPU cores
+          memory: 8G # Maximum 8GB RAM
+```
+
+-   `replicas`: The number of container instances to run for the worker service.
+-   `cpus`: The maximum number of CPU cores the container can use.
+-   `memory`: The maximum amount of memory the container can use.
+
+Adjust these values based on your server's available resources to optimize performance.
 
 ## Configuring Worker Replicas and Resource Limits
 
