@@ -36,7 +36,8 @@ services:
       - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod/protocol/openid-connect/auth
       - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod/protocol/openid-connect/token
       - GF_AUTH_GENERIC_OAUTH_API_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod/protocol/openid-connect/userinfo
-      - GF_SERVER_ROOT_URL=http://localhost/grafana
+      - GF_SERVER_ROOT_URL=http://localhost/nomad-oasis/grafana
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
     env_file:
       - ./.env
     networks:
@@ -63,8 +64,9 @@ services:
     depends_on:
       - temporal
     environment:
-      - TEMPORAL_CORS_ORIGINS=localhost:4173 # todo: change this
-      - TEMPORAL_AUTH_CALLBACK_URL=http://localhost:4173/auth/sso/callback # change this
+      - TEMPORAL_CORS_ORIGINS=localhost/nomad-oasis/temporal # todo: change this
+      - TEMPORAL_AUTH_CALLBACK_URL=http://localhost/nomad-oasis/temporal/auth/sso/callback # change this
+      - TEMPORAL_UI_PUBLIC_PATH=/nomad-oasis/temporal
       - TEMPORAL_ADDRESS=temporal:7233
       - TEMPORAL_AUTH_LABEL=fairdi_nomad_prod
       - TEMPORAL_AUTH_CLIENT_SECRET="test"
