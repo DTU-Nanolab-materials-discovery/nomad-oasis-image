@@ -2259,21 +2259,21 @@ wheels = [
 
 [[package]]
 name = "nomad-analysis"
-version = "0.1.4"
+version = "0.2.0"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "nbformat" },
     { name = "nomad-lab" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2a/aa/14c40aeef18f5a990a888b3cb8955d8aee6d0b7703fd84b3d75b90fb14c8/nomad_analysis-0.1.4.tar.gz", hash = "sha256:4b25de62d121e86333a96008072ec8117ff93c5492bfd08b6eeeea1e77ff18e7", size = 126283, upload-time = "2025-06-12T21:46:15.712Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/67/da/a17bcd201ce4bbdd5f3f818d430569e3c4a1301a771c17cdec274f0517ff/nomad_analysis-0.2.0.tar.gz", hash = "sha256:0e71cf62c97efccdfc051eebc627c5f930a7799da2582499cbf088c409005216", size = 127686, upload-time = "2025-11-04T16:17:12.862Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/47/d2/7debb7b38eea66032929534b35018486ad2405d935955d86e0f48c1180fc/nomad_analysis-0.1.4-py3-none-any.whl", hash = "sha256:02807b64054211b728726f88b8733737fc0857aa4ed4c238ead1ca7a030d895c", size = 27890, upload-time = "2025-06-12T21:46:14.558Z" },
+    { url = "https://files.pythonhosted.org/packages/a7/39/c0bcb3122b3e419170888fca835614a731e94fa6a7b876d51653968457cc/nomad_analysis-0.2.0-py3-none-any.whl", hash = "sha256:e4dfe40eec14342261b60436596f02e7d8f07fcd8442dabd9ee732746a40941f", size = 30078, upload-time = "2025-11-04T16:17:11.699Z" },
 ]
 
 [[package]]
 name = "nomad-auto-xrd"
-version = "0.3.2"
-source = { git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.2#18754574a2bea24826ce9d8c528679496a9da089" }
+version = "0.3.4"
+source = { git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.4#4c2f6543c9e564a3313c995ac2544f4f182e51e7" }
 dependencies = [
     { name = "nomad-analysis" },
     { name = "nomad-lab", extra = ["infrastructure"] },
@@ -2336,8 +2336,8 @@ plugins = [
 [package.metadata]
 requires-dist = [
     { name = "jupyter-events", marker = "extra == 'jupyter'" },
-    { name = "nomad-auto-xrd", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.2" },
-    { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.2" },
+    { name = "nomad-auto-xrd", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.4" },
+    { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.4" },
     { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.4" },
     { name = "nomad-lab", extras = ["dev", "infrastructure", "parsing"], marker = "extra == 'dev'", specifier = ">=1.3.4" },
     { name = "nomad-lab", extras = ["infrastructure", "parsing"], specifier = ">=1.4.0" },
