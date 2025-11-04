@@ -105,8 +105,9 @@ services:
     depends_on:
       - temporal
     environment:
-      - TEMPORAL_CORS_ORIGINS=nomad.nanolab.dtu.dk/nomad-oasis/temporal # todo: change this
-      - TEMPORAL_AUTH_CALLBACK_URL=http://nomad.nanolab.dtu.dk/nomad-oasis/temporal/auth/sso/callback # change this
+      - TEMPORAL_CORS_ORIGINS=localhost/nomad-oasis/temporal # todo: change this
+      - TEMPORAL_AUTH_CALLBACK_URL=http://localhost/nomad-oasis/temporal/auth/sso/callback # change this
+      - TEMPORAL_UI_PUBLIC_PATH=/nomad-oasis/temporal
       - TEMPORAL_ADDRESS=temporal:7233
       - TEMPORAL_AUTH_LABEL=fairdi_nomad_prod
       - TEMPORAL_AUTH_CLIENT_SECRET="test"
@@ -122,7 +123,7 @@ services:
   # nomad worker (processing)
   worker:
     restart: unless-stopped
-    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:pr-54
     platform: linux/amd64
     environment:
       NOMAD_SERVICE: nomad_oasis_worker
@@ -206,7 +207,7 @@ services:
   # nomad cpu worker (actions)
   cpu_worker:
     restart: unless-stopped
-    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/cpu-action:main
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/cpu-action:pr-54
     platform: linux/amd64
     container_name: nomad_oasis_cpu_worker
     env_file:
@@ -241,7 +242,7 @@ services:
   # nomad app (api + proxy)
   app:
     restart: unless-stopped
-    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:pr-54
     platform: linux/amd64
     container_name: nomad_oasis_app
     environment:
@@ -286,7 +287,7 @@ services:
   # nomad remote tools hub (JupyterHUB, e.g. for AI Toolkit)
   north:
     restart: unless-stopped
-    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:pr-54
     platform: linux/amd64
     container_name: nomad_oasis_north
     environment:
@@ -324,7 +325,7 @@ services:
   # to enable the logtransfer service run "docker compose --profile with_logtransfer up"
   logtransfer:
     restart: unless-stopped
-    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:pr-54
     platform: linux/amd64
     container_name: nomad_oasis_logtransfer
     environment:
@@ -371,7 +372,7 @@ services:
 
   # jupyterlab image: (this is only used to pull the image, no service is run for this)
   jupyterlab_image:
-    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:pr-54
     platform: linux/amd64
     container_name: nomad_jupyter_image
     pull_policy: always
