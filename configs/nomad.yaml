@@ -40,8 +40,8 @@ plugins:
   entry_points:
     exclude:
       - apps/3_experiment/2_eels
-      - nomad_measurements.xrd:parser
-      - nomad_analysis.jupyter:schema
+      - nomad_measurements.xrd:parser_entry_point
+      - nomad_analysis.jupyter:schema_entry_point
     options:
       nomad_dtu_nanolab_plugin.schema_packages:sputtering:
         overwrite_libraries: true
