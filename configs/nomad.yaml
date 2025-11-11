@@ -3,6 +3,7 @@ services:
   api_base_path: "/nomad-oasis"
   upload_limit: 1000
   upload_members_group_search_enabled: true
+  console_log_level: 10
 
 oasis:
   is_oasis: true
