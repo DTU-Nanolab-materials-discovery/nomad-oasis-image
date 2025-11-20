@@ -88,7 +88,7 @@ services:
       - POSTGRES_SEEDS=postgresql
       - TEMPORAL_ADDRESS=temporal:7233
       - TEMPORAL_CLI_ADDRESS=temporal:7233
-    image: docker.io/temporalio/auto-setup:1.28
+    image: docker.io/temporalio/auto-setup:1.29.1
     healthcheck:
       test: >
         bash -c '
@@ -423,14 +423,14 @@ services:
       - TEMPORAL_AUTH_CLIENT_SECRET="test"
       - TEMPORAL_AUTH_ENABLED=true
       - TEMPORAL_AUTH_TYPE=oidc
-      - TEMPORAL_DISABLE_WRITE_ACTIONS=true
+      - TEMPORAL_DISABLE_WRITE_ACTIONS=false
       - TEMPORAL_AUTH_PROVIDER_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod
       - TEMPORAL_AUTH_ISSUER_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod
       - TEMPORAL_AUTH_CLIENT_ID=nomad_public
       - TEMPORAL_AUTH_SCOPES=openid,email,profile
     env_file:
       - ./.env
-    image: temporalio/ui:2.34.0
+    image: temporalio/ui:2.43.3
     restart: unless-stopped
 
 volumes:
