@@ -430,7 +430,7 @@ services:
       - TEMPORAL_AUTH_SCOPES=openid,email,profile
     env_file:
       - ./.env
-    image: temporalio/ui:2.43.3
+    image: temporalio/ui:2.34.0
     restart: unless-stopped
 
 volumes:
