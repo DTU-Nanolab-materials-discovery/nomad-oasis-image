@@ -89,7 +89,7 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     ```
 
 4. Create a file for environment variables
-  
+
     Before running the containers, you should create a `.env` file in the root of the repository. This file is used to store sensitive information and is ignored by git.
 
     At a minimum, you should add a secure secret for the API:
@@ -101,9 +101,9 @@ Below are instructions for how to deploy this NOMAD Oasis distribution
     Make sure the `NOMAD_SERVICES_API_SECRET` is at least 32 characters long.
 
     If you have bash available you can run this script:
-    
+
     ```sh
-    sh scripts/generate-env.sh
+    bash scripts/generate-env.sh
     ```
 
     This will create a `.env` file with a randomly generated 64-character API secret. If the file already exists, you'll be prompted before overwriting it.
@@ -368,6 +368,62 @@ By default, documentation is built using the [nomad-docs](https://github.com/DTU
 
 This setup ensures that your custom documentation is used when building your Oasis.
 
+
+## Backing up the Oasis
+
+For detailed instructions on backing up the data on your Oasis we recommend reading the
+[NOMAD documentation on administration](https://nomad-lab.eu/prod/v1/staging/docs/howto/oasis/administer.html#backups).
+
+As part of this repository there is a bash script for running the mongodump in `scripts/backup-mongo.sh`.
+1. Make sure you are in the top directory of this repository and that the `mongo` service (container `nomad_oasis_mongo`) is running.
+
+2. Run the script:
+
+    ```sh
+    bash scripts/backup-mongo.sh
+    ```
+
+3. Check that a `nomad_oasis_v1` mongodump was created in `.volumes/mongo` and that the
+dump was added to the logfile.
+
+    ```sh
+    ls .volumes/mongo
+    cat .volumes/mongo/backup.log
+    ```
+
+4. (Optional) Add the script to the crontab to run for example every night at 2 am.
+From the top directory of this repository, run:
+
+    ```sh
+    (crontab -l 2>/dev/null; echo "0 2 * * * bash $(realpath scripts/backup-mongo.sh)") | crontab -
+    ```
+
+    Finally, check that the cronjob was added:
+
+    ```sh
+    crontab -l
+    ```
+
+> [!CAUTION]
+> This will only dump the NOMAD mongo data onto the server. It is still up to you
+> to setup a proper backup of the dump in the `.volumes/mongo` directory as well as all
+> the raw files in the `.volumes/fs` directory.
+
+## Enabling NOMAD Actions
+
+To enable NOMAD Actions, you need to decide whether you need a CPU worker, a GPU worker, or both, and then make the following changes:
+
+1.  **Enable the required worker service(s) in `docker-compose.yaml`:**
+
+    Uncomment the `cpu_worker` service, the `gpu_worker` service, or both in the `docker-compose.yaml` file depending on your needs.
+
+2.  **Enable the corresponding build step(s) in the Docker publish workflow:**
+
+    In the `.github/workflows/docker-publish.yml` file, uncomment the build step(s) corresponding to the worker(s) you enabled in the `docker-compose.yaml` file.
+
+3.  **Adjust deployment resources:**
+
+    If necessary, adjust the deployment resources (e.g., CPU, memory, replicas) for the enabled worker service(s) in the `docker-compose.yaml` file to match your server's capacity.
 
 ## Updating the distribution from the template
 
