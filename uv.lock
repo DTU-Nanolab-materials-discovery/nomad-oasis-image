@@ -1222,6 +1222,19 @@ fastapi = [
 ]
 
 [[package]]
+name = "h5netcdf"
+version = "1.7.3"
+source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
+dependencies = [
+    { name = "h5py" },
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/62/45/03d9869c27ec515b80f82c0096ac1786c94e0c34f99a13419f2fca974b2f/h5netcdf-1.7.3.tar.gz", hash = "sha256:f62a0e77d1e2a6cd8b9d8120d5b62b6a015dc7c6185768a01e983c77c0b794e3", size = 71334, upload-time = "2025-10-21T14:01:33.323Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d6/49/1f35189c1ca136b2f041b72402f2eb718bdcb435d9e88729fe6f6909c45d/h5netcdf-1.7.3-py3-none-any.whl", hash = "sha256:b1967678127d55009edd4c7e36cb322a7b66bdade37a2e229d857f5ecf375c01", size = 56355, upload-time = "2025-10-21T14:01:32.283Z" },
+]
+
+[[package]]
 name = "h5py"
 version = "3.11.0"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
@@ -2653,22 +2666,25 @@ wheels = [
 
 [[package]]
 name = "nomad-parser-plugins-workflow"
-version = "1.1.5"
+version = "1.1.12"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
+    { name = "ase" },
     { name = "asr" },
+    { name = "h5netcdf" },
     { name = "h5py" },
     { name = "lxml" },
-    { name = "nomad-lab" },
+    { name = "netcdf4" },
+    { name = "nomad-lab", extra = ["infrastructure"] },
     { name = "nomad-schema-plugin-run" },
     { name = "nomad-schema-plugin-simulation-workflow" },
     { name = "phonopy" },
     { name = "pydantic" },
     { name = "xarray" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/06/9f/64b27f1598013f62acef3c40c9eacfe05f79fec8609b9269093372b1fd27/nomad_parser_plugins_workflow-1.1.5.tar.gz", hash = "sha256:5954523d73e8d3fc9336ed03e23304b5b673ac4dcac2500679a46eab291dd8ea", size = 31162769, upload-time = "2025-03-19T13:39:03.886Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/54/fc73c7a75eef037b66b1b2537ed248d59f7586b1621f0ed9dd2066db4ae4/nomad_parser_plugins_workflow-1.1.12.tar.gz", hash = "sha256:cb2304e72a3bc46b58e8f52fe63edfbf55324f4245d169fb760eae0b6d326140", size = 31960052, upload-time = "2025-10-31T17:10:18.121Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fc/fc/212eae43c7745384a8b7bafbeeff57146daa9d7aee35968fea08ad375e28/nomad_parser_plugins_workflow-1.1.5-py3-none-any.whl", hash = "sha256:32143830aa84f695725e648b0d2c7752b4b0ebabb21957952fed479523e877de", size = 118480, upload-time = "2025-03-19T13:39:01.243Z" },
+    { url = "https://files.pythonhosted.org/packages/24/21/110ccb827f4c4cc9143fdb1de109a1f7a9210bc3c084ee87eeb92ed49746/nomad_parser_plugins_workflow-1.1.12-py3-none-any.whl", hash = "sha256:6e121612859d8c4d22348a946ae0d24b235f8fd42e1fb344b656eb1e4e305cb4", size = 123744, upload-time = "2025-10-31T17:10:15.742Z" },
 ]
 
 [[package]]
@@ -3257,7 +3273,7 @@ wheels = [
 
 [[package]]
 name = "phonopy"
-version = "2.11.0"
+version = "2.38.0"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "h5py" },
@@ -3266,8 +3282,26 @@ dependencies = [
     { name = "numpy", version = "2.3.4", source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }, marker = "python_full_version >= '3.13'" },
     { name = "pyyaml" },
     { name = "spglib" },
+    { name = "symfc" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/da/da/c8e03dd3b66b7550bf21f0304e5fb848d90c921d613cb5f2a5c5c12ec81c/phonopy-2.11.0.tar.gz", hash = "sha256:2ab47d3eb53a5265f3567974d29760b510b3312217358b76efc27ade9bd1a9f0", size = 3348511, upload-time = "2021-07-08T13:43:22.529Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/bf/7579c5618db1719fb97d3450b5fc6a3c75fbf57715b2dbb0f9afb21baa35/phonopy-2.38.0.tar.gz", hash = "sha256:f2c285affe76b45fcef59d6323c7da727bbcfcdf25e0684cbdae46fccdcf40cf", size = 4712135, upload-time = "2025-03-03T03:10:51.134Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d3/70/e4f000e40928b908b4de8a2ab763f1b64fe1c47b84dd274d0af5d8828f54/phonopy-2.38.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:9cbfc6cb83d181474079b3baee35cdb7d6ecb923690fbf2cd0221beb0eda1c9d", size = 500012, upload-time = "2025-03-03T03:29:39.737Z" },
+    { url = "https://files.pythonhosted.org/packages/26/95/94e1dc6f2dc86d41991b81becdbe603e44ca72a0937a9c1c642337b0921c/phonopy-2.38.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:670fdf6aa3e3d83c16e1502d5c74036c6ca25fb98f4369e283998fa6ffd065ee", size = 588818, upload-time = "2025-03-03T03:29:40.781Z" },
+    { url = "https://files.pythonhosted.org/packages/e0/6c/03b0c726100c8625abc6eeeadd7f96aed2c3256f0a8432b5519c1ccc0aa0/phonopy-2.38.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5fc377e23e4e2c33cf1c7b6f7d479d4dd7c2add079a4749eb2e476067d4eb5c8", size = 593684, upload-time = "2025-03-03T03:29:42.229Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/4b/b77e5ecf757f3bd848f7dac6884024b518850ca3d726b90706360ba2ade9/phonopy-2.38.0-cp311-cp311-win32.whl", hash = "sha256:71deba8f1e26b7a3454e59c022ce772465fa0a9fb8276643b1cd12e00108d9f2", size = 497127, upload-time = "2025-03-03T03:29:43.301Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/a9/8bba26226fba5b0db4075d1840080e46431409628ead5a900ef37c53eef9/phonopy-2.38.0-cp311-cp311-win_amd64.whl", hash = "sha256:e6afc1c629e7beb680389dc7c1100f623c80f01ade0cfb96c1f1498b46ace131", size = 511825, upload-time = "2025-03-03T03:29:45.041Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/af/2e207f0727950242248ed382b88061eb5d73bd26239c13f0b53a57f1bc0e/phonopy-2.38.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:96feff9cf014765b7093c38fd1d564f769acbfddf88781dcfca0f9c4c9b03629", size = 497788, upload-time = "2025-03-03T03:29:46.078Z" },
+    { url = "https://files.pythonhosted.org/packages/5e/a9/52859f20963754b3e0e39674208bf50196ad91c537afe87dc4e50a32bba8/phonopy-2.38.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f7cca7636350dd42a4c686bc54ff443601e7957d6eaa9e78caf05c4e1f7e9487", size = 585974, upload-time = "2025-03-03T03:29:47.546Z" },
+    { url = "https://files.pythonhosted.org/packages/f3/31/012ca83c6bb91836f5cc2d95319c443e93789580690068325d3f25a47e6f/phonopy-2.38.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e088479bf4496f0b302edffba2f71e3bad472ddd24e8e4dabef414d2972b0612", size = 590873, upload-time = "2025-03-03T03:29:48.559Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/86/ddf5cdd17e9a5f1f3bfeeb085ad0a9a4173707189cef15361bb044c82449/phonopy-2.38.0-cp312-cp312-win32.whl", hash = "sha256:f3634c5c49caec381d5118ab0519ba30d7ac9e93dc05b96b3529c2d2a9470259", size = 495744, upload-time = "2025-03-03T03:29:50.246Z" },
+    { url = "https://files.pythonhosted.org/packages/77/56/3fb7842746ae5560162dcbbe908d670faaa45ea2069e6e518b734ce127d3/phonopy-2.38.0-cp312-cp312-win_amd64.whl", hash = "sha256:c8ab6d4d77026f7163095a98e479aeba4171765b91cdf1ad2d089267a98ab491", size = 510457, upload-time = "2025-03-03T03:29:52.253Z" },
+    { url = "https://files.pythonhosted.org/packages/9f/93/e13fa5411a05f7376cea1a148586124e838c03fd393c6504c9292a1a3524/phonopy-2.38.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:bc96970a86dc2fad1a1075ba5319ca0963869a61666c85b506c186af4f7b1c06", size = 497788, upload-time = "2025-03-03T03:29:53.922Z" },
+    { url = "https://files.pythonhosted.org/packages/8a/53/62a22f8bc1b3e1b685d5b3b2f41184eb25dd18ad454e7c43a9f718fed35d/phonopy-2.38.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:df086647edf6a007df9eb8a3ad0ecd1126044aa2dfca9c89f3bfe5a011267189", size = 585976, upload-time = "2025-03-03T03:29:54.982Z" },
+    { url = "https://files.pythonhosted.org/packages/50/41/c5fc351d95d6465559716222041c3acafe8e011a9fa93209ecf36f3a8939/phonopy-2.38.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:adcec115149704fb1fd7b00a2d86a1bb773142e92fa14c1e77eb0fd0b0d97046", size = 590874, upload-time = "2025-03-03T03:29:56.02Z" },
+    { url = "https://files.pythonhosted.org/packages/53/d8/02e49ee222934616746f3a4bbedba83932ce54dc296a2289090aad4f73f1/phonopy-2.38.0-cp313-cp313-win32.whl", hash = "sha256:b813ab003dd487feceb4cccd27117fb3fe1c88e524dae0edcfc44a64ea2c4605", size = 495763, upload-time = "2025-03-03T03:29:57.181Z" },
+    { url = "https://files.pythonhosted.org/packages/d3/72/0f21bcd9b6ddd11aee61b2487104875828b6e7a6146d2ed3552e17a00fc6/phonopy-2.38.0-cp313-cp313-win_amd64.whl", hash = "sha256:324206bf6dd482a3091a4b3b3d3f146f4eea12313219d61b9f008684ff4b820b", size = 510456, upload-time = "2025-03-03T03:29:58.221Z" },
+]
 
 [[package]]
 name = "pillow"
@@ -4498,6 +4532,21 @@ source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages
 sdist = { url = "https://files.pythonhosted.org/packages/78/b8/d3670aec25747e32d54cd5258102ae0d69b9c61c79e7aa326be61a570d0d/structlog-25.2.0.tar.gz", hash = "sha256:d9f9776944207d1035b8b26072b9b140c63702fd7aa57c2f85d28ab701bd8e92", size = 1367438, upload-time = "2025-03-11T17:41:11.436Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/51/eb/244741c1abf7b4092686db0798a4c43491298f40ddec4226f5c4f6b5d3eb/structlog-25.2.0-py3-none-any.whl", hash = "sha256:0fecea2e345d5d491b72f3db2e5fcd6393abfc8cd06a4851f21fcd4d1a99f437", size = 68448, upload-time = "2025-03-11T17:41:09.478Z" },
+]
+
+[[package]]
+name = "symfc"
+version = "1.6.0"
+source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
+dependencies = [
+    { name = "numpy", version = "1.26.4", source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }, marker = "python_full_version < '3.13'" },
+    { name = "numpy", version = "2.3.4", source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }, marker = "python_full_version >= '3.13'" },
+    { name = "scipy" },
+    { name = "spglib" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/01/8c/dd300c269c61930b258089809834c51018c6181894442964a3bbe0fb2ddc/symfc-1.6.0.tar.gz", hash = "sha256:973645d648561542ac04e65bc337466529095a6602eee088566ee4347eaccbb9", size = 846065, upload-time = "2025-11-30T07:17:53.985Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/88/87ef065507f7d93977eb6fb59fb5cfc235ca1d5d252fdc19c8f1e8ac8312/symfc-1.6.0-py3-none-any.whl", hash = "sha256:c16c3a32bdd9e062ab5065a8ba8cccd657753f12af100ab6b06fe1bccf49a8bc", size = 88823, upload-time = "2025-11-30T07:17:52.724Z" },
 ]
 
 [[package]]
