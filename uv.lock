@@ -2276,8 +2276,8 @@ wheels = [
 
 [[package]]
 name = "nomad-auto-xrd"
-version = "0.3.8"
-source = { git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.8#14335cb7e5d924babe902e30aaa56ca7d466c104" }
+version = "0.3.9"
+source = { git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.9#b61de5863ba9521a2e62da4586773a044143810f" }
 dependencies = [
     { name = "nomad-analysis" },
     { name = "nomad-lab", extra = ["infrastructure"] },
@@ -2341,8 +2341,8 @@ plugins = [
 [package.metadata]
 requires-dist = [
     { name = "jupyter-events", marker = "extra == 'jupyter'" },
-    { name = "nomad-auto-xrd", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.8" },
-    { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.8" },
+    { name = "nomad-auto-xrd", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.9" },
+    { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.9" },
     { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.8" },
     { name = "nomad-lab", extras = ["dev", "infrastructure", "parsing"], marker = "extra == 'dev'", specifier = ">=1.3.4" },
     { name = "nomad-lab", extras = ["infrastructure", "parsing"], specifier = ">=1.4.0" },
