@@ -67,7 +67,7 @@ prerelease = "explicit"
 
 [tool.uv.sources]
 nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git", rev = "v0.4.8" }
-nomad-auto-xrd = { git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git", rev = "v0.3.8" }
+nomad-auto-xrd = { git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git", rev = "v0.3.9" }
 
 [tool.setuptools.packages.find]
 exclude = ["gui*", "docs*", "config*"]
