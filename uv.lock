@@ -920,6 +920,15 @@ wheels = [
 ]
 
 [[package]]
+name = "fsspec"
+version = "2026.1.0"
+source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d5/7d/5df2650c57d47c57232af5ef4b4fdbff182070421e405e0d62c6cdbfaa87/fsspec-2026.1.0.tar.gz", hash = "sha256:e987cb0496a0d81bba3a9d1cee62922fb395e7d4c3b575e57f547953334fe07b", size = 310496, upload-time = "2026-01-09T15:21:35.562Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/01/c9/97cc5aae1648dcb851958a3ddf73ccd7dbe5650d95203ecb4d7720b4cdbf/fsspec-2026.1.0-py3-none-any.whl", hash = "sha256:cb76aa913c2285a3b49bdd5fc55b1d7c708d7208126b60f2eb8194fe1b4cbdcc", size = 201838, upload-time = "2026-01-09T15:21:34.041Z" },
+]
+
+[[package]]
 name = "gast"
 version = "0.6.0"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
@@ -2273,7 +2282,7 @@ requires-dist = [
     { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.9" },
     { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.9" },
     { name = "nomad-lab", extras = ["dev", "infrastructure", "parsing"], marker = "extra == 'dev'", specifier = ">=1.3.4" },
-    { name = "nomad-lab", extras = ["infrastructure", "parsing"], specifier = "==1.4.1.dev263" },
+    { name = "nomad-lab", extras = ["infrastructure", "parsing"], specifier = "==1.4.1.dev269" },
     { name = "nomad-material-processing", marker = "extra == 'plugins'", specifier = "==1.0.4" },
     { name = "nomad-measurements", marker = "extra == 'plugins'", specifier = ">=1.3.2" },
     { name = "nomad-normalizer-plugin-bandstructure", marker = "extra == 'plugins'", specifier = ">=1.0" },
@@ -2321,7 +2330,7 @@ dependencies = [
 
 [[package]]
 name = "nomad-lab"
-version = "1.4.1.dev263+g084d3ba46"
+version = "1.4.1.dev269+gc07587c26"
 source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
 dependencies = [
     { name = "ase" },
@@ -2330,6 +2339,7 @@ dependencies = [
     { name = "click" },
     { name = "docstring-parser" },
     { name = "elasticsearch-dsl" },
+    { name = "fsspec" },
     { name = "h5py" },
     { name = "httpx" },
     { name = "jmespath" },
@@ -2345,6 +2355,7 @@ dependencies = [
     { name = "openpyxl" },
     { name = "orjson" },
     { name = "pandas" },
+    { name = "pathvalidate" },
     { name = "pint" },
     { name = "plotly" },
     { name = "py-spy" },
@@ -2361,9 +2372,9 @@ dependencies = [
     { name = "unidecode" },
     { name = "xarray" },
 ]
-sdist = { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/f7ee551d7879a2a0d6aee7c4d797c7a48782ef851867e8480f500995d085e61a/nomad_lab-1.4.1.dev263+g084d3ba46.tar.gz", hash = "sha256:f7ee551d7879a2a0d6aee7c4d797c7a48782ef851867e8480f500995d085e61a" }
+sdist = { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/bd6ef03597f3dfe6f3dc487ae871e3545ec127b5991b6cc82d8af7a58d3c1c38/nomad_lab-1.4.1.dev269+gc07587c26.tar.gz", hash = "sha256:bd6ef03597f3dfe6f3dc487ae871e3545ec127b5991b6cc82d8af7a58d3c1c38" }
 wheels = [
-    { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/90b99df9b5c292f1fba1cc1f2dbeb37b8b1046e9345096dff9043f8855ebdd69/nomad_lab-1.4.1.dev263+g084d3ba46-py3-none-any.whl", hash = "sha256:90b99df9b5c292f1fba1cc1f2dbeb37b8b1046e9345096dff9043f8855ebdd69" },
+    { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/424e2e1fe4031afa53233fb0c8b0842790c70521c2daf64e6fa5fabac607e35f/nomad_lab-1.4.1.dev269+gc07587c26-py3-none-any.whl", hash = "sha256:424e2e1fe4031afa53233fb0c8b0842790c70521c2daf64e6fa5fabac607e35f" },
 ]
 
 [package.optional-dependencies]
@@ -3137,6 +3148,15 @@ source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages
 sdist = { url = "https://files.pythonhosted.org/packages/ca/bc/f35b8446f4531a7cb215605d100cd88b7ac6f44ab3fc94870c120ab3adbf/pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712", size = 51043, upload-time = "2023-12-10T22:30:45Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/cc/20/ff623b09d963f88bfde16306a54e12ee5ea43e9b597108672ff3a408aad6/pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08", size = 31191, upload-time = "2023-12-10T22:30:43.14Z" },
+]
+
+[[package]]
+name = "pathvalidate"
+version = "3.3.1"
+source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/fa/2a/52a8da6fe965dea6192eb716b357558e103aea0a1e9a8352ad575a8406ca/pathvalidate-3.3.1.tar.gz", hash = "sha256:b18c07212bfead624345bb8e1d6141cdcf15a39736994ea0b94035ad2b1ba177", size = 63262, upload-time = "2025-06-15T09:07:20.736Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9a/70/875f4a23bfc4731703a5835487d0d2fb999031bd415e7d17c0ae615c18b7/pathvalidate-3.3.1-py3-none-any.whl", hash = "sha256:5263baab691f8e1af96092fa5137ee17df5bdfbd6cff1fcac4d6ef4bc2e1735f", size = 24305, upload-time = "2025-06-15T09:07:19.117Z" },
 ]
 
 [[package]]
