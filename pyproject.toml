@@ -21,7 +21,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
 dependencies = [
-  "nomad-lab[parsing, infrastructure]==1.4.1.dev269",
+  "nomad-lab[parsing, infrastructure]==1.4.1.dev272",
   "setuptools",
 ]
 
