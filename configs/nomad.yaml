@@ -8,6 +8,20 @@ services:
 oasis:
   is_oasis: true
   uses_central_user_management: true
+  allowed_users:
+    - 'alba'
+    - 'anatitzhak'
+    - 'ancro@dtu.dk'
+    - 'clarabmoller'
+    - 'david.miles_skov'
+    - 'dtu_nanolab'
+    - 'eugbe'
+    - 'finta'
+    - 'hampusnasstrom'
+    - 'indiogo'
+    - 'lena'
+    - 'sanz'
+    - 'sarthakdevelop3'
 
 client:
   url: https://nomad.nanolab.dtu.dk/nomad-oasis/api
