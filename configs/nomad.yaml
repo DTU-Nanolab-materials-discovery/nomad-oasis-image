@@ -24,7 +24,7 @@ oasis:
     - 'sarthakdevelop3'
 
 client:
-  url: https://nomad.nanolab.dtu.dk/nomad-oasis/api
+  url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
 
 north:
   jupyterhub_crypt_key: "978bfb2e13a8448a253c629d8dd84ff89587f30e635b753153960930cad9d36d"
@@ -35,7 +35,7 @@ north:
 
 meta:
   deployment: "oasis"
-  deployment_url: https://nomad.nanolab.dtu.dk/nomad-oasis/api
+  deployment_url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
   maintainer_email: "me@my-oasis.org"
 
 logstash:
