@@ -293,7 +293,7 @@ A minimal `values.yaml` for single-node clusters (Minikube, Kind, k3s, etc.) is 
 > to point to your container registry (e.g. `ghcr.io/<your-org>/<your-repo>:main`).
 
 For the full list of Helm chart options, environment-specific values files (AWS, Minikube, Kind),
-and advanced configuration, see the [nomad-helm-charts](https://github.com/FAIRmat-NFDI/nomad-helm-charts) repository.
+and advanced configuration, see the [nomad-helm-charts](https://github.com/DTU-Nanolab-materials-discovery/nomad-helm-charts) repository.
 
 ## Configuring Worker Replicas and Resource Limits
 
@@ -345,7 +345,7 @@ Adjust these values based on your server's available resources to optimize perfo
 
 ## Adding a plugin
 
-By default, no plugins are included in this distribution. You can find a list of available NOMAD plugins [here](https://nomad-lab.eu/prod/v1/oasis/gui/search/plugins). For a list of official plugins provided by FAIRmat, please see [here](https://github.com/FAIRmat-NFDI/.github/blob/main/profile/README.md). For inspiration, you can also check the list of [plugins that are installed on the production NOMAD deployment hosted by FAIRmat](https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-distro/-/raw/main/pyproject.toml?ref_type=heads).
+By default, no plugins are included in this distribution. You can find a list of available NOMAD plugins [here](https://nomad-lab.eu/prod/v1/oasis/gui/search/plugins). For a list of official plugins provided by FAIRmat, please see [here](https://github.com/DTU-Nanolab-materials-discovery/.github/blob/main/profile/README.md). For inspiration, you can also check the list of [plugins that are installed on the production NOMAD deployment hosted by FAIRmat](https://gitlab.mpcdf.mpg.de/nomad-lab/nomad-distro/-/raw/main/pyproject.toml?ref_type=heads).
 
 To add a new plugin to the docker image you should add it to the plugins table in the [`pyproject.toml`](pyproject.toml) file.
 
@@ -424,7 +424,7 @@ jupyter = [
 
 The recommended way to integrate the Docker image e.g., Jupyter into your NOMAD Oasis is through the plugin entry point system. This approach is cleaner, more maintainable, and automatically handles all necessary configurations.
 
-[`nomad-north-jupyter`](https://github.com/FAIRmat-NFDI/nomad-north-jupyter) is a NOMAD plugin that provides a containerized JupyterLab environment for interactive analysis within NORTH (NOMAD Remote Tools Hub). This plugin has been added to this distribution by default via `pyproject.toml`. In `nomad.yaml`, the `NORTHTool` entry point is configured to use the [custom Jupyter image](#the-jupyter-image) built in this repository.
+[`nomad-north-jupyter`](https://github.com/DTU-Nanolab-materials-discovery/nomad-north-jupyter) is a NOMAD plugin that provides a containerized JupyterLab environment for interactive analysis within NORTH (NOMAD Remote Tools Hub). This plugin has been added to this distribution by default via `pyproject.toml`. In `nomad.yaml`, the `NORTHTool` entry point is configured to use the [custom Jupyter image](#the-jupyter-image) built in this repository.
 
 ## Automated Unit and Example Upload Tests in CI
 

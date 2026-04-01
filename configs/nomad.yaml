@@ -55,4 +55,4 @@ plugins:
         overwrite_libraries: true
       nomad_north_jupyter.north_tools.jupyter_north_tool:north_tool_entry_point:
         north_tool:
-          image: ghcr.io/fairmat-nfdi/nomad-north-jupyter:latest
+          image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
