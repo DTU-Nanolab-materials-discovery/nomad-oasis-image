@@ -40,6 +40,7 @@ permissions:
   packages: write
   attestations: write
   id-token: write
+  pull-requests: write
 
 jobs:
   # Job 1: Update Lock File
@@ -189,6 +190,26 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Pick PR tag
+        id: pr_tag
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -m1 ':pr-' || true)
+          if [ -z "$TAG" ]; then
+            TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Comment image tag on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          header: image-${{ matrix.service }}
+          message: |
+            Built image for service: ${{ matrix.service }}
+            Tag: ${{ steps.pr_tag.outputs.tag }}
 
       - name: Set image output
         run: |
