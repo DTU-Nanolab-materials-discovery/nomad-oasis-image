@@ -26,13 +26,6 @@ oasis:
 client:
   url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
 
-north:
-  jupyterhub_crypt_key: "978bfb2e13a8448a253c629d8dd84ff89587f30e635b753153960930cad9d36d"
-  tools:
-    options:
-      jupyter:
-        image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
-
 meta:
   deployment: "oasis"
   deployment_url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
@@ -60,3 +53,6 @@ plugins:
     options:
       nomad_dtu_nanolab_plugin.schema_packages:sputtering:
         overwrite_libraries: true
+      nomad_north_jupyter.north_tools.jupyter_north_tool:north_tool_entry_point:
+        north_tool:
+          image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
