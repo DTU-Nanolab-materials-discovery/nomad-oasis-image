@@ -22,6 +22,7 @@ oasis:
     - 'lena'
     - 'sanz'
     - 'sarthakdevelop3'
+    - 'chmode'
 
 client:
   url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
