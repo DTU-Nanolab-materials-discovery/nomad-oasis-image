@@ -20,7 +20,7 @@ dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
-dependencies = ["nomad-lab[infrastructure]==1.4.2rc1"]
+dependencies = ["nomad-lab[infrastructure]==1.4.2"]
 
 [project.urls]
 repository = "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-image"
@@ -53,7 +53,7 @@ cpu-action = [
   "nomad-auto-xrd[cpu-action]",
 ]
 
-dev = ["nomad-lab[infrastructure, dev]==1.4.2rc1"]
+dev = ["nomad-lab[infrastructure, dev]==1.4.2"]
 
 [tool.uv]
 extra-index-url = [

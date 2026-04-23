@@ -8,7 +8,17 @@ services:
 oasis:
   is_oasis: true
   uses_central_user_management: true
-  allowed_users:
+
+auth:
+  require_authentication: false
+  reject_unauthorized_users: false
+  unauthenticated_user_scopes:
+    include:
+      - "*:read"
+  unauthorized_user_scopes:
+    include:
+      - "*:read"
+  authorized_users:
     - 'alba'
     - 'anatitzhak'
     - 'ancro@dtu.dk'
@@ -22,6 +32,7 @@ oasis:
     - 'lena'
     - 'sanz'
     - 'sarthakdevelop3'
+    - 'chmode'
 
 client:
   url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
@@ -53,6 +64,6 @@ plugins:
     options:
       nomad_dtu_nanolab_plugin.schema_packages:sputtering:
         overwrite_libraries: true
-      nomad_north_jupyter.north_tools.jupyter_north_tool:north_tool_entry_point:
+      nomad_north_jupyter.north_tools:jupyter:
         north_tool:
           image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
