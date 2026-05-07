@@ -352,7 +352,7 @@ services:
       # - ./configs/nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
       # HTTPS (you need to have an SSL certificate)
       - ./configs/nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
-      - /etc/ssl/certs/nomad_nanolab_dtu_dk.crt:/etc/nginx/tls/mounted-nomad-oasis.crt:ro
+      - /etc/ssl/certs/nomad_nanolab_dtu_dk_full.pem:/etc/nginx/ssl/mounted-nomad-oasis.pem:ro
       - /etc/ssl/private/nomad_nanolab_dtu_dk.key:/etc/nginx/tls/mounted-nomad-oasis.key:ro
     depends_on:
       app:
