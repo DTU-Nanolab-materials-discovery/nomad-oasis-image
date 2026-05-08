@@ -3,11 +3,11 @@ name: Build and publish docker images
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "develop"]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "develop"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -18,7 +18,9 @@ env:
   JUPYTER_VERSION: "2025-04-14"
   # If you want to include custom documentation, create a fork of the repo below and link the forked repo here
   NOMAD_DOCS_REPO: https://github.com/FAIRmat-NFDI/nomad-docs.git
-  # If you want to skip the tests for some plugins, add them to the list below
+  NOMAD_DOCS_REPO_REF: ""
+  # If you want to skip the tests for some plugins, add them here as a single string where
+  # each plugin is separated by whitespace
   PLUGIN_TESTS_PLUGINS_TO_SKIP: |
     workflowparsers
     nomad_porous_materials
@@ -38,6 +40,7 @@ permissions:
   packages: write
   attestations: write
   id-token: write
+  pull-requests: write
 
 jobs:
   # Job 1: Update Lock File
@@ -45,17 +48,17 @@ jobs:
     name: Update Python Lock File
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -86,17 +89,17 @@ jobs:
     env:
       PLUGIN_TESTS_CI_NODE_TOTAL: 2
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -140,7 +143,7 @@ jobs:
             image_suffix: /cpu-action
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
@@ -157,9 +160,9 @@ jobs:
           sudo ln -s /mnt/docker /var/lib/docker
           sudo systemctl start docker
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
 
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -167,18 +170,19 @@ jobs:
 
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}${{ matrix.image_suffix }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           build-args: |
             UV_VERSION=${{ env.UV_VERSION }}
             PYTHON_VERSION=${{ env.PYTHON_VERSION }}
             NOMAD_DOCS_REPO=${{ env.NOMAD_DOCS_REPO }}
+            NOMAD_DOCS_REPO_REF=${{ env.NOMAD_DOCS_REPO_REF }}
             JUPYTER_VERSION=${{ env.JUPYTER_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -186,6 +190,26 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Pick PR tag
+        id: pr_tag
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -m1 ':pr-' || true)
+          if [ -z "$TAG" ]; then
+            TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Comment image tag on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          header: image-${{ matrix.service }}
+          message: |
+            Built image for service: ${{ matrix.service }}
+            Tag: ${{ steps.pr_tag.outputs.tag }}
 
       - name: Set image output
         run: |
@@ -206,12 +230,12 @@ jobs:
       JUPYTER_IMAGE: ${{ needs.build.outputs.jupyter_image }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
 
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -230,11 +254,11 @@ jobs:
           fi
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
