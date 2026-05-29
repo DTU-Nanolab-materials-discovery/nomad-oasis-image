@@ -49,6 +49,8 @@ temporal:
   enabled: true
   internal_worker:
     max_concurrent_activities: 5
+  processing_timeouts:
+    internal_processing_heartbeat_timeout: 300
 
 mongo:
   db_name: nomad_oasis_v1
