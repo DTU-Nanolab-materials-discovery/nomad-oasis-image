@@ -158,7 +158,7 @@ services:
       replicas: 4
       resources:
         limits:
-          cpus: "3.0" # Maximum 4 CPU cores
+          cpus: "1.0" # Maximum 4 CPU cores
           memory: 8G # Maximum 8GB RAM
       restart_policy:
         condition: on-failure
