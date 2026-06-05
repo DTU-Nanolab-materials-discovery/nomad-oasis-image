@@ -48,7 +48,7 @@ logstash:
 temporal:
   enabled: true
   internal_worker:
-    max_concurrent_activities: 5
+    max_concurrent_activities: 1
   processing_timeouts:
     internal_processing_heartbeat_timeout: 300
 
