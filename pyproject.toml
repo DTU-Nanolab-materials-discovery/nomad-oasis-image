@@ -28,25 +28,25 @@ repository = "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-ima
 [project.optional-dependencies]
 # Add your plugins to the list below.
 plugins = [
-  "nomad-simulations>=0.0.1",
-  "nomad-schema-plugin-run>=1.0.1",
-  "nomad-schema-plugin-simulation-workflow>=1.0.1",
-  "nomad-normalizer-plugin-bandstructure>=1.0",
-  "nomad-normalizer-plugin-dos>=1.0",
-  "nomad-normalizer-plugin-soap>=1.0",
-  "nomad-normalizer-plugin-spectra>=1.0",
+  "nomad-simulations>=0.7.0",
+  "nomad-schema-plugin-run>=1.0.5",
+  "nomad-schema-plugin-simulation-workflow>=1.0.11",
+  "nomad-normalizer-plugin-bandstructure>=1.0.4",
+  "nomad-normalizer-plugin-dos>=1.0.7",
+  "nomad-normalizer-plugin-soap>=1.0.2",
+  "nomad-normalizer-plugin-spectra>=1.0.4",
   "nomad-normalizer-plugin-system>=1.0.5",
-  "nomad-normalizer-plugin-simulation-workflow>=1.0",
-  "nomad-parser-plugins-electronic>=1.0",
-  "nomad-parser-plugins-atomistic>=1.0.6",
-  "nomad-parser-plugins-workflow>=1.0",
-  "nomad-parser-plugins-database>=1.0",
+  "nomad-normalizer-plugin-simulation-workflow>=1.0.4",
+  "nomad-parser-plugins-electronic>=1.0.17",
+  "nomad-parser-plugins-atomistic>=1.0.12",
+  "nomad-parser-plugins-workflow>=1.2.0",
+  "nomad-parser-plugins-database>=1.1.3",
   "nomad-material-processing==1.0.4",
   "nomad-measurements>=1.3.6",
   "nomad-dtu-nanolab-plugin",
   "nomad-auto-xrd",
   "nomad-north-jupyter>=0.2.5",
-  # "nomad-gui==2.0.0a2.dev583",
+  "nomad-gui==2.0.0a2.dev583",
 ]
 jupyter = ["jupyter-events"]
 gpu-action = []
