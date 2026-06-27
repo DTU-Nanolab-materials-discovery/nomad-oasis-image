@@ -46,7 +46,7 @@ plugins = [
   "nomad-dtu-nanolab-plugin",
   "nomad-auto-xrd",
   "nomad-north-jupyter>=0.2.5",
-  "nomad-gui==2.0.0a2.dev583",
+  # "nomad-gui==2.0.0a2.dev583",
 ]
 jupyter = ["jupyter-events"]
 gpu-action = []
