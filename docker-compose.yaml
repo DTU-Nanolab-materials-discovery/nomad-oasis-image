@@ -155,11 +155,11 @@ services:
       retries: 5
       start_period: 15s
     deploy:
-      replicas: 2
+      replicas: 4
       resources:
         limits:
-          cpus: "2.0" # Maximum 2 CPUs per worker
-          memory: 24G # Maximum 24GB RAM
+          cpus: "4.0" # Maximum 2 CPUs per worker
+          memory: 16G # Maximum 24GB RAM
       restart_policy:
         condition: on-failure
         delay: 5s
