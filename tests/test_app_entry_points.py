@@ -9,7 +9,12 @@ if TYPE_CHECKING:
 
 @pytest.mark.parametrize(
     "app",
-    [pytest.param(app, id=app.get("path", "<no-path>")) for app in make_request_with_retry(get_request, "apps/entry-points", auth=None).json().get("data", [])],
+    [
+        pytest.param(app, id=app.get("path", "<no-path>"))
+        for app in make_request_with_retry(get_request, "apps/entry-points", auth=None)
+        .json()
+        .get("data", [])
+    ],
 )
 def test_app_entry_point(auth: "Auth", app):
     """Each app entry point should respond successfully."""
