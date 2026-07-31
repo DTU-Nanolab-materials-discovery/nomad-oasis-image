@@ -3004,7 +3004,7 @@ requires-dist = [
     { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.9" },
     { name = "nomad-crystallm", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-crystallm.git?rev=v0.1.0" },
     { name = "nomad-crystallm", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-crystallm.git?rev=v0.1.0" },
-    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.17" },
+    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.18" },
     { name = "nomad-lab", extras = ["dev", "infrastructure"], marker = "extra == 'dev'", specifier = "==1.4.2" },
     { name = "nomad-lab", extras = ["infrastructure"], specifier = "==1.4.2" },
     { name = "nomad-material-processing", marker = "extra == 'plugins'", specifier = ">=1.0.6" },
@@ -3040,8 +3040,8 @@ wheels = [
 
 [[package]]
 name = "nomad-dtu-nanolab-plugin"
-version = "0.4.17"
-source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.17#f4ddd7add623b7e637868931256bcdecc32e15b4" }
+version = "0.4.18"
+source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.18#f22f9465d733b629c32eae24d2c4caac499842a1" }
 dependencies = [
     { name = "fairmat-readers-xrd" },
     { name = "httpx" },
@@ -3051,6 +3051,7 @@ dependencies = [
     { name = "nomad-measurements" },
     { name = "openpyxl" },
     { name = "renishawwire" },
+    { name = "scikit-learn" },
 ]
 
 [[package]]
