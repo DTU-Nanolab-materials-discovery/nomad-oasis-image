@@ -28,6 +28,7 @@ repository = "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-ima
 [project.optional-dependencies]
 # Add your plugins to the list below.
 plugins = [
+  "nomad-gui==2.0.0b3",
   "nomad-simulations>=0.0.1",
   "nomad-schema-plugin-run>=1.0.1",
   "nomad-schema-plugin-simulation-workflow>=1.0.1",
