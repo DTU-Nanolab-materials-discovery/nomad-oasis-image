@@ -1,4 +1,5 @@
 services:
+  https: true
   api_host: "nomad.nanolab.dtu.dk"
   api_base_path: "/nomad-oasis"
   upload_limit: 1000

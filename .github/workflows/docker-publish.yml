@@ -34,6 +34,7 @@ env:
     nomad_analysis
     electronicparsers
     nomad_simulations
+    nomad_gui
 
 permissions:
   contents: write

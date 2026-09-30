@@ -2979,6 +2979,7 @@ plugins = [
     { name = "nomad-auto-xrd" },
     { name = "nomad-crystallm" },
     { name = "nomad-dtu-nanolab-plugin" },
+    { name = "nomad-gui" },
     { name = "nomad-material-processing" },
     { name = "nomad-measurements" },
     { name = "nomad-normalizer-plugin-bandstructure" },
@@ -3005,6 +3006,7 @@ requires-dist = [
     { name = "nomad-crystallm", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-crystallm.git?rev=v0.1.0" },
     { name = "nomad-crystallm", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-crystallm.git?rev=v0.1.0" },
     { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.18" },
+    { name = "nomad-gui", marker = "extra == 'plugins'", specifier = "==2.0.0b3" },
     { name = "nomad-lab", extras = ["dev", "infrastructure"], marker = "extra == 'dev'", specifier = "==1.4.2" },
     { name = "nomad-lab", extras = ["infrastructure"], specifier = "==1.4.2" },
     { name = "nomad-material-processing", marker = "extra == 'plugins'", specifier = ">=1.0.6" },
@@ -3052,6 +3054,24 @@ dependencies = [
     { name = "openpyxl" },
     { name = "renishawwire" },
     { name = "scikit-learn" },
+]
+
+[[package]]
+name = "nomad-gui"
+version = "2.0.0b3"
+source = { registry = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "fastapi" },
+    { name = "filelock" },
+    { name = "httpx" },
+    { name = "nomad-lab", extra = ["infrastructure"] },
+    { name = "plotly" },
+    { name = "starlette" },
+]
+sdist = { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/ac9ee76f8cdeea0013da85ccc13ac885dccf82faf152ee79e744669c8bcfafb8/nomad_gui-2.0.0b3.tar.gz", hash = "sha256:ac9ee76f8cdeea0013da85ccc13ac885dccf82faf152ee79e744669c8bcfafb8" }
+wheels = [
+    { url = "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/files/c3d7288e582951febf3ceac5fcd449460cfa1e7f3da7085da124bac947aa2382/nomad_gui-2.0.0b3-py3-none-any.whl", hash = "sha256:c3d7288e582951febf3ceac5fcd449460cfa1e7f3da7085da124bac947aa2382" },
 ]
 
 [[package]]
