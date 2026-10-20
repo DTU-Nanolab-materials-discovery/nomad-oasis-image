@@ -1,0 +1,28 @@
+services:
+  app:
+    image: !reset null
+    build:
+      context: .
+      target: final
+  worker:
+    image: !reset null
+    build:
+      context: .
+      target: final
+  north:
+    image: !reset null
+    build:
+      context: .
+      target: final
+    user: "0:0"
+  cpu_worker:
+    image: !reset null
+    build:
+      context: .
+      target: cpu_action_final
+  jupyterlab_image:
+    image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
+    pull_policy: never
+    build:
+      context: .
+      target: jupyter
