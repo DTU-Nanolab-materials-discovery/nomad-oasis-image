@@ -16,31 +16,20 @@ env:
   UV_VERSION: 0.9
   PYTHON_VERSION: 3.12
   JUPYTER_VERSION: "2025-04-14"
-  # If you want to include custom documentation, create a fork of the repo below and link the forked repo here
-  NOMAD_DOCS_REPO: https://github.com/FAIRmat-NFDI/nomad-docs.git
+  # By default, no documentation is built and the official docs at https://docs.nomad-lab.eu are used.
+  # If you want to include custom documentation, create a fork of https://github.com/FAIRmat-NFDI/nomad-docs.git
+  # and set both the forked repo URL and the git ref (branch, tag, or commit) to build here.
+  NOMAD_DOCS_REPO: ""
   NOMAD_DOCS_REPO_REF: ""
   # If you want to skip the tests for some plugins, add them here as a single string where
-  # each plugin is separated by whitespace
-  PLUGIN_TESTS_PLUGINS_TO_SKIP: |
-    workflowparsers
-    nomad_porous_materials
-    simulationworkflowschema
-    databaseparsers
-    soapnormalizer
-    eelsdbparser
-    atomisticparsers
-    nomad_aitoolkit
-    pynxtools_igor
-    nomad_analysis
-    electronicparsers
-    nomad_simulations
+  # each plugin is separated by a comma or a line break
+  PLUGIN_TESTS_PLUGINS_TO_SKIP: ""
 
 permissions:
   contents: write
   packages: write
   attestations: write
   id-token: write
-  pull-requests: write
 
 jobs:
   # Job 1: Update Lock File
@@ -48,7 +37,7 @@ jobs:
     name: Update Python Lock File
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
@@ -58,7 +47,7 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -89,7 +78,7 @@ jobs:
     env:
       PLUGIN_TESTS_CI_NODE_TOTAL: 2
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
@@ -99,7 +88,7 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
@@ -107,7 +96,7 @@ jobs:
         env:
           PLUGIN_TESTS_CI_NODE_INDEX: ${{ matrix.group }}
         run: |
-          # replace the yaml list with a string, use a `,` to separate the plugins
+          # Convert line-separated plugin names to the CLI's comma-separated format.
           PLUGINS_STRING=$(echo "$PLUGIN_TESTS_PLUGINS_TO_SKIP" | tr '\n' ',' | sed 's/,$//')
           uv run \
             --extra plugins \
@@ -126,7 +115,7 @@ jobs:
         service:
           - app
           - jupyter
-          - cpu-action
+          # - cpu-action
           # - gpu-action
         include:
           - service: app
@@ -138,27 +127,15 @@ jobs:
           # - service: gpu-action
           #   target: gpu_action_final
           #   image_suffix: /gpu-action
-          - service: cpu-action
-            target: cpu_action_final
-            image_suffix: /cpu-action
+          # - service: cpu-action
+          #   target: cpu_action_final
+          #   image_suffix: /cpu-action
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
-      - name: Disk usage before build
-        run: |
-          df -h
-          du -h -d1 /home/runner/work
-          docker system df
-      - name: Move Docker storage to /mnt/docker  # /mnt has more free space available
-        run: |
-          sudo systemctl stop docker
-          sudo mkdir -p /mnt/docker
-          sudo mv /var/lib/docker /mnt/docker
-          sudo ln -s /mnt/docker /var/lib/docker
-          sudo systemctl start docker
 
       - uses: docker/setup-buildx-action@v4
 
@@ -191,26 +168,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Pick PR tag
-        id: pr_tag
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: |
-          TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -m1 ':pr-' || true)
-          if [ -z "$TAG" ]; then
-            TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
-          fi
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-
-      - name: Comment image tag on PR
-        if: github.event_name == 'pull_request'
-        uses: marocchino/sticky-pull-request-comment@v3
-        with:
-          header: image-${{ matrix.service }}
-          message: |
-            Built image for service: ${{ matrix.service }}
-            Tag: ${{ steps.pr_tag.outputs.tag }}
-
       - name: Set image output
         run: |
           FIRST_TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
@@ -230,7 +187,7 @@ jobs:
       JUPYTER_IMAGE: ${{ needs.build.outputs.jupyter_image }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           submodules: true
@@ -244,6 +201,7 @@ jobs:
       - name: Start containers and check app/jupyter container health
         working-directory: tests
         run: |
+          docker compose up -d --quiet-pull --wait
           if ! docker compose up -d --quiet-pull --wait; then
             echo "Containers failed health check."
             echo "Logs for app:"
@@ -258,7 +216,7 @@ jobs:
         with:
           version: ${{ env.UV_VERSION }}
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 

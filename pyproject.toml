@@ -20,7 +20,9 @@ dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
-dependencies = ["nomad-lab[infrastructure]==1.4.2"]
+dependencies = [
+  "nomad-lab[infrastructure]==2.0.1",
+]
 
 [project.urls]
 repository = "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-image"
@@ -46,7 +48,8 @@ plugins = [
   "nomad-dtu-nanolab-plugin",
   "nomad-auto-xrd",
   "nomad-crystallm",
-  "nomad-north-jupyter>=0.2.5"
+  "nomad-north-jupyter>=0.2.6",
+  "nomad-gui==2.0.1",
 ]
 jupyter = ["jupyter-events"]
 gpu-action = []
@@ -55,13 +58,13 @@ cpu-action = [
   "nomad-crystallm[cpu-action]",
 ]
 
-dev = ["nomad-lab[infrastructure, dev]==1.4.2"]
+dev = ["nomad-lab[infrastructure, dev]==2.0.1"]
 
 [tool.uv]
 extra-index-url = [
   "https://gitlab.mpcdf.mpg.de/api/v4/projects/2187/packages/pypi/simple",
 ]
-prerelease = "explicit"
+prerelease = "if-necessary-or-explicit"
 
 [tool.uv.sources]
 nomad-dtu-nanolab-plugin = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git", rev = "v0.4.18" }

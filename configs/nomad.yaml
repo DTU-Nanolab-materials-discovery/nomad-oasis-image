@@ -1,9 +1,10 @@
 services:
   api_host: "nomad.nanolab.dtu.dk"
-  api_base_path: "/nomad-oasis"
   upload_limit: 1000
   upload_members_group_search_enabled: true
   console_log_level: 10
+  api_port: 80
+  api_base_path: "/backend"
 
 oasis:
   is_oasis: true
@@ -40,7 +41,19 @@ client:
 meta:
   deployment: "oasis"
   deployment_url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
-  maintainer_email: "me@my-oasis.org"
+
+plugins:
+  entry_points:
+    exclude:
+      - apps/3_experiment/2_eels
+      - nomad_measurements.xrd:parser_entry_point
+      - nomad_analysis.jupyter:schema_entry_point
+    options:
+      nomad_dtu_nanolab_plugin.schema_packages:sputtering:
+        overwrite_libraries: true
+      nomad_north_jupyter.north_tools:jupyter:
+        north_tool:
+          image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
 
 logstash:
   enabled: false
@@ -57,17 +70,7 @@ mongo:
 
 elastic:
   entries_index: nomad_oasis_entries_v1
-  materials_index: nomad_oasis_materials_v1
 
-plugins:
-  entry_points:
-    exclude:
-      - apps/3_experiment/2_eels
-      - nomad_measurements.xrd:parser_entry_point
-      - nomad_analysis.jupyter:schema_entry_point
-    options:
-      nomad_dtu_nanolab_plugin.schema_packages:sputtering:
-        overwrite_libraries: true
-      nomad_north_jupyter.north_tools:jupyter:
-        north_tool:
-          image: ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
+north:
+  enabled: true
+  enable_new_hub_api: true
