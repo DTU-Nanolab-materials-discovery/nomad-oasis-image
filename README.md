@@ -1,8 +1,23 @@
-![docker image](https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-image/actions/workflows/docker-publish.yml/badge.svg)
+![docker image](https://github.com/{{ repository }}/actions/workflows/docker-publish.yml/badge.svg)
 
-# DTU-Nanolab-materials-discovery's NOMAD Oasis Distribution
+{% if include_template_section == "true" -%}
+# NOMAD Oasis Distribution *Template*
+This repository is a template for creating your own custom NOMAD Oasis distribution image.
+Click [here](https://github.com/new?template_name=nomad-distro-template&template_owner=FAIRmat-NFDI)
+to use this template, or click the `Use this template` button in the upper right corner of
+the main GitHub page for this template.
 
-This is the NOMAD Oasis distribution of DTU-Nanolab-materials-discovery.
+> [!CAUTION]
+> The templated repository will run a GitHub action on creation which might take a few minutes.
+> After the workflow finishes you should refresh the page and this message should disappear.
+> If this message persists you might need to trigger the workflow manually by navigating to the
+> "Actions" tab at the top, clicking "Template Repository Initialization" on the left side,
+> and triggering it by clicking "Run workflow" under the "Run workflow" button on the right.
+
+{% endif -%}
+# {{ repository_owner }}'s NOMAD Oasis Distribution
+
+This is the NOMAD Oasis distribution of {{ repository_owner }}.
 Below are instructions for how to [deploy this distribution](#deploying-the-distribution)
 and how to customize it through [adding plugins](#adding-a-plugin).
 
@@ -50,16 +65,16 @@ This section covers the minimal steps for getting an Oasis running locally. Note
 2. Clone the repository or download the repository as a zip file.
 
     ```sh
-    git clone https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-image.git
-    cd nomad-oasis-image
+    git clone https://github.com/{{ repository }}.git
+    cd {{ repository_name }}
     ```
 
     or
 
     ```sh
-    curl -L -o nomad-oasis-image.zip "https://github.com/DTU-Nanolab-materials-discovery/nomad-oasis-image/archive/main.zip"
-    unzip nomad-oasis-image.zip
-    cd nomad-oasis-image
+    curl -L -o {{ repository_name }}.zip "https://github.com/{{ repository }}/archive/main.zip"
+    unzip {{ repository_name }}.zip
+    cd {{ repository_name }}
     ```
 
 3. _On Linux only,_ recursively change the owner of the `.volumes` directory to the nomad user (1000)
@@ -257,7 +272,7 @@ Please see the [Jupyter image](#the-jupyter-image) section below for more inform
 ### For an existing Oasis
 
 If you already have an Oasis running you only need to change the image in
-`docker-compose.yaml` (either by setting `APP_IMAGE` in your `.env` or updating `x-images.nomad` in `docker-compose.yaml`) with `ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:main`.
+`docker-compose.yaml` (either by setting `APP_IMAGE` in your `.env` or updating `x-images.nomad` in `docker-compose.yaml`) with `ghcr.io/{{ image_name }}:main`.
 
 If you want to use the `nomad.yaml` from this repository you also need to comment out
 the inclusion of the `nomad.yaml` under the volumes key of `x-nomad-base` in
@@ -430,7 +445,7 @@ Note that the `base-notebook` image is more lightweight and uses less disk space
 The image is quite large and might cause a timeout the first time it is run. In order to avoid this you can pre pull the image with:
 
 ```sh
-docker pull ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:main
+docker pull ghcr.io/{{ image_name }}/jupyter:main
 ```
 
 If you want additional python packages to be available to all users in the jupyter hub you can add those to the jupyter table in the [`pyproject.toml`](pyproject.toml):
@@ -592,7 +607,75 @@ For detailed migration instructions, please refer to the [NOMAD Oasis Migration 
 
 ## FAQ/Trouble shooting
 
-- _I get an_ `Error response from daemon: Head "https://ghcr.io/v2/dtu-nanolab-materials-discovery/nomad-oasis-image/manifests/main": unauthorized` _when trying to pull my docker image._
+<details>
+<summary>MongoDB refuses to start on newer Linux kernels</summary>
+
+If the `mongo` container fails to start, check its logs:
+
+```sh
+docker compose logs mongo
+```
+
+The following message indicates a known incompatibility between MongoDB's
+TCMalloc allocator and newer Linux kernels:
+
+```text
+MongoDB cannot start: Linux kernel versions 6.19 and newer has a known incompatibility with this version of MongoDB.
+```
+
+Containers use the kernel of their Linux host (or the Linux VM provided by your
+container runtime on macOS/Windows). Changing the NOMAD image does not change
+that kernel. The Oasis administrator must apply the appropriate workaround:
+
+1. **Prefer updating the host or container-runtime VM kernel.** According to
+   [MongoDB's platform support notes](https://www.mongodb.com/docs/manual/administration/production-notes/#platform-support-notes),
+   the kernel incompatibility affects versions 6.19 through 7.0.13 and is resolved
+   in 7.0.14 and later. However, some MongoDB versions may still reject newer
+   kernels: [issue #245](https://github.com/FAIRmat-NFDI/nomad-distro-template/issues/245)
+   reports MongoDB 8.0.28 refusing to start on kernel 7.1.5. If this happens, try
+   the environment-variable workaround below.
+
+2. **If updating the kernel is not possible or MongoDB still refuses to start,**
+   add this entry to the existing `mongo.environment` list in `docker-compose.yaml`,
+   keeping the other entries:
+
+   ```yaml
+   services:
+     mongo:
+       environment:
+         - MONGO_DATA_DIR=/data/db
+         - MONGO_LOG_DIR=/dev/null
+         - GLIBC_TUNABLES=glibc.pthread.rseq=1
+   ```
+
+   This [reported workaround](https://miliucci.org/post/mongodb-tcmalloc-rseq/)
+   may reduce performance. Recreate the container to apply it, then check the logs:
+
+   ```sh
+   docker compose up -d --force-recreate mongo
+   docker compose logs mongo
+   ```
+
+> [!WARNING]
+> **Development-only fallback:** MongoDB `docker.io/mongo:8.0.4` has also been
+> reported to start on affected kernels, but this old version has known security
+> vulnerabilities (see the [8.0.5 release notes](https://www.mongodb.com/docs/v8.0/release-notes/8.0/#8.0.5---feb-20--2025)).
+> Do not use it in production or downgrade an existing Oasis database in place.
+> If needed for a disposable local test, change only the `mongo` service's `image`
+> to `docker.io/mongo:8.0.4` and use a separate, empty data volume.
+
+The template already uses the floating `docker.io/mongo:8.0` tag. Pulling it with
+`docker compose pull mongo` obtains the latest available 8.0 patch, but a newer
+patch is not a confirmed fix for this issue. Check the upstream
+[MongoDB issue](https://jira.mongodb.org/browse/SERVER-121912) and
+[template issue #245](https://github.com/FAIRmat-NFDI/nomad-distro-template/issues/245)
+for updates before removing a workaround or changing MongoDB major versions.
+
+</details>
+
+### Pulling the distribution image
+
+- _I get an_ `Error response from daemon: Head "https://ghcr.io/v2/{{ image_name }}/manifests/main": unauthorized` _when trying to pull my docker image._
 
    Most likely you have not made the package public or provided a personal access token (PAT).
 You can read how to make your package public in the GitHub docs [here](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility)
