@@ -4,10 +4,10 @@
 
 # Reusable image definitions with environment variable overrides
 x-images:
-  nomad:      &nomad-image      ${APP_IMAGE:-ghcr.io/fairmat-nfdi/nomad-distro-template:${IMAGE_TAG:-main}}
-  jupyter:    &jupyter-image    ${JUPYTER_IMAGE:-ghcr.io/fairmat-nfdi/nomad-distro-template/jupyter:${IMAGE_TAG:-main}}
-  cpu-worker: &cpu-worker-image ${NOMAD_CPU_WORKER_IMAGE:-ghcr.io/fairmat-nfdi/nomad-distro-template/cpu-action:${IMAGE_TAG:-main}}
-  gpu-worker: &gpu-worker-image ${NOMAD_GPU_WORKER_IMAGE:-ghcr.io/fairmat-nfdi/nomad-distro-template/gpu-action:${IMAGE_TAG:-main}}
+  nomad:      &nomad-image      ${APP_IMAGE:-ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image:${IMAGE_TAG:-main}}
+  jupyter:    &jupyter-image    ${JUPYTER_IMAGE:-ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/jupyter:${IMAGE_TAG:-main}}
+  cpu-worker: &cpu-worker-image ${NOMAD_CPU_WORKER_IMAGE:-ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/cpu-action:${IMAGE_TAG:-main}}
+  gpu-worker: &gpu-worker-image ${NOMAD_GPU_WORKER_IMAGE:-ghcr.io/dtu-nanolab-materials-discovery/nomad-oasis-image/gpu-action:${IMAGE_TAG:-main}}
   north:      &north-image      ${NOMAD_NORTH_IMAGE:-ghcr.io/fairmat-nfdi/nomad-north:2.0.1}
 
   temporal-admin:  &temporal-admin-image  docker.io/temporalio/admin-tools:${TEMPORAL_VERSION:-1.31}
