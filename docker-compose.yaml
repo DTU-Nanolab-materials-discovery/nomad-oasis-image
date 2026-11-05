@@ -16,7 +16,7 @@ x-images:
 # Common environment variables shared across NOMAD app and internal/cpu/gpu workers
 x-nomad-environment: &nomad-environment
   NOMAD_ELASTIC_HOST: ${NOMAD_ELASTIC_HOST:-elastic}
-  NOMAD_ELASTIC_VERSION: ${NOMAD_ELASTIC_VERSION:-9}
+  NOMAD_ELASTIC_VERSION: ${NOMAD_ELASTIC_VERSION:-7}
   NOMAD_MONGO_HOST: ${NOMAD_MONGO_HOST:-mongo}
   NOMAD_TEMPORAL_HOST: ${NOMAD_TEMPORAL_HOST:-temporal}
 
@@ -75,10 +75,10 @@ services:
   # the search engine
   elastic:
     restart: unless-stopped
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.0
-    container_name: nomad_oasis_elastic_9
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.28
+    container_name: nomad_oasis_elastic
     environment:
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
       - discovery.type=single-node
       - xpack.security.enabled=false
     volumes:
@@ -201,7 +201,7 @@ services:
       resources:
         limits:
           cpus: "4.0" # Maximum 4 CPU cores
-          memory: 8G # Maximum 8GB RAM
+          memory: 16G # Maximum 16GB RAM
 
   # nomad gpu worker (actions)
   # gpu_worker:
@@ -282,6 +282,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:rw"
       # Bind Docker volume on host for JupyterHub database and cookie secrets
       - "nomad_north:/data"
+    user: '1000:991'
     healthcheck:
       test:
         - "CMD"
@@ -318,11 +319,11 @@ services:
       - ./configs/nginx_base_conf:/etc/nginx/conf.d/nginx_base_conf:ro
       - ./configs/nginx_maps_conf:/etc/nginx/conf.d/nginx_maps_conf:ro
       # HTTP
-      - ./configs/nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./configs/nginx_http.conf:/etc/nginx/conf.d/default.conf:ro
       # HTTPS (you need to have a TLS certificate)
-      # - ./configs/nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
-      # - ./tls/selfsigned.crt:/etc/nginx/tls/mounted-nomad-oasis.crt:ro  # Path to your TLS certificate
-      # - ./tls/selfsigned.key:/etc/nginx/tls/mounted-nomad-oasis.key:ro  # Path to your TLS private key
+      - ./configs/nginx_https.conf:/etc/nginx/conf.d/default.conf:ro
+      - /etc/ssl/certs/nomad_nanolab_dtu_dk_full.pem:/etc/nginx/tls/mounted-nomad-oasis.pem:ro
+      - /etc/ssl/private/nomad_nanolab_dtu_dk.key:/etc/nginx/tls/mounted-nomad-oasis.key:ro
     depends_on:
       app:
         condition: service_healthy
@@ -334,15 +335,92 @@ services:
       - 80:80
       - 443:443
 
+  # monitoring stack
+  prometheus:
+    image: prom/prometheus:v2.47.2
+    container_name: prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--storage.tsdb.retention.time=3d"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: grafana
+    volumes:
+      - ./monitoring/grafana/provisioning/:/etc/grafana/provisioning/
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SERVER_ROOT_URL=http://nomad.nanolab.dtu.dk/nomad-oasis/grafana
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
+      - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=nomad_public
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=test
+      - GF_AUTH_GENERIC_OAUTH_SCOPES=openid profile email
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod/protocol/openid-connect/auth
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod/protocol/openid-connect/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod/protocol/openid-connect/userinfo
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    env_file:
+      - ./.env
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
+    container_name: cadvisor
+    privileged: true
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    restart: unless-stopped
+
+  temporal_ui:
+    container_name: nomad_oasis_temporal_ui
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_CORS_ORIGINS=http://nomad.nanolab.dtu.dk/nomad-oasis/temporal
+      - TEMPORAL_AUTH_CALLBACK_URL=http://nomad.nanolab.dtu.dk/nomad-oasis/temporal/auth/sso/callback
+      - TEMPORAL_UI_PUBLIC_PATH=/nomad-oasis/temporal
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_AUTH_LABEL=fairdi_nomad_prod
+      - TEMPORAL_AUTH_CLIENT_SECRET="test"
+      - TEMPORAL_AUTH_ENABLED=true
+      - TEMPORAL_AUTH_TYPE=oidc
+      - TEMPORAL_DISABLE_WRITE_ACTIONS=true
+      - TEMPORAL_AUTH_PROVIDER_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod
+      - TEMPORAL_AUTH_ISSUER_URL=https://nomad-lab.eu/fairdi/keycloak/auth/realms/fairdi_nomad_prod
+      - TEMPORAL_AUTH_CLIENT_ID=nomad_public
+      - TEMPORAL_AUTH_SCOPES=openid,email,profile
+    env_file:
+      - ./.env
+    image: temporalio/ui:2.34.0
+    restart: unless-stopped
+
 volumes:
   mongo:
     name: "nomad_oasis_mongo"
   elastic:
-    name: "nomad_oasis_elastic_9"
+    name: "nomad_oasis_elastic"
   keycloak:
     name: "nomad_oasis_keycloak"
   postgresql:
     name: "nomad_oasis_postgresql"
+  prometheus_data:
+    name: "nomad_oasis_prometheus"
+  grafana_data:
+    name: "nomad_oasis_grafana"
   nomad_north:
     name: "nomad_oasis_north"
 
