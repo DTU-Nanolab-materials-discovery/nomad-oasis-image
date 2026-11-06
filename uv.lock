@@ -4443,7 +4443,7 @@ requires-dist = [
     { name = "nomad-auto-xrd", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-auto-xrd.git?rev=v0.3.9" },
     { name = "nomad-crystallm", marker = "extra == 'plugins'", git = "https://github.com/FAIRmat-NFDI/nomad-crystallm.git?rev=v0.1.0" },
     { name = "nomad-crystallm", extras = ["cpu-action"], marker = "extra == 'cpu-action'", git = "https://github.com/FAIRmat-NFDI/nomad-crystallm.git?rev=v0.1.0" },
-    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.19" },
+    { name = "nomad-dtu-nanolab-plugin", marker = "extra == 'plugins'", git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.20" },
     { name = "nomad-gui", marker = "extra == 'plugins'", specifier = "==2.0.1" },
     { name = "nomad-lab", extras = ["dev", "infrastructure"], marker = "extra == 'dev'", specifier = "==2.0.1" },
     { name = "nomad-lab", extras = ["infrastructure"], specifier = "==2.0.1" },
@@ -4468,8 +4468,8 @@ provides-extras = ["plugins", "jupyter", "gpu-action", "cpu-action", "dev"]
 
 [[package]]
 name = "nomad-dtu-nanolab-plugin"
-version = "0.4.19"
-source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.19#0e3390745b12dd73d45394ff716d70bc440c5022" }
+version = "0.4.20"
+source = { git = "https://github.com/DTU-Nanolab-materials-discovery/nomad-dtu-nanolab-plugin.git?rev=v0.4.20#a68b3b513dad0757fab02dd6b4b8a4d67d45c719" }
 dependencies = [
     { name = "fairmat-readers-xrd" },
     { name = "httpx" },
