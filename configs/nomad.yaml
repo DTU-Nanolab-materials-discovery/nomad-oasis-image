@@ -5,6 +5,7 @@ services:
   console_log_level: 10
   api_port: 80
   api_base_path: "/backend"
+  https: true
 
 oasis:
   is_oasis: true
