@@ -35,7 +35,7 @@ x-nomad-base: &nomad-base
       condition: service_healthy
   volumes:
     # Uncomment the following line to mount a local nomad.yaml into all NOMAD services:
-    # - ./configs/nomad.yaml:/app/nomad.yaml
+    - ./configs/nomad.yaml:/app/nomad.yaml
     - ./.volumes/fs:/app/.volumes/fs
 
 # Base configuration for standard NOMAD services using the default nomad image (app and internal worker)
