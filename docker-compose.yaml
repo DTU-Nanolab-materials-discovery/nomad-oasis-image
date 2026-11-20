@@ -356,7 +356,7 @@ services:
       - ./monitoring/grafana/provisioning/:/etc/grafana/provisioning/
       - grafana_data:/var/lib/grafana
     environment:
-      - GF_SERVER_ROOT_URL=http://nomad.nanolab.dtu.dk/nomad-oasis/grafana
+      - GF_SERVER_ROOT_URL=https://nomad.nanolab.dtu.dk/grafana
       - GF_AUTH_GENERIC_OAUTH_ENABLED=true
       - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
       - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
@@ -389,9 +389,9 @@ services:
     depends_on:
       - temporal
     environment:
-      - TEMPORAL_CORS_ORIGINS=http://nomad.nanolab.dtu.dk/nomad-oasis/temporal
-      - TEMPORAL_AUTH_CALLBACK_URL=http://nomad.nanolab.dtu.dk/nomad-oasis/temporal/auth/sso/callback
-      - TEMPORAL_UI_PUBLIC_PATH=/nomad-oasis/temporal
+      - TEMPORAL_CORS_ORIGINS=https://nomad.nanolab.dtu.dk/temporal
+      - TEMPORAL_AUTH_CALLBACK_URL=https://nomad.nanolab.dtu.dk/temporal/auth/sso/callback
+      - TEMPORAL_UI_PUBLIC_PATH=/temporal
       - TEMPORAL_ADDRESS=temporal:7233
       - TEMPORAL_AUTH_LABEL=fairdi_nomad_prod
       - TEMPORAL_AUTH_CLIENT_SECRET="test"
