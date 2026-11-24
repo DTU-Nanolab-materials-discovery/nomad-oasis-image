@@ -36,6 +36,7 @@ auth:
     - 'sarthakdevelop3'
     - 'chmode'
     - 'mawod@dtu.dk'
+    - 'nikry@dtu.dk'
 
 client:
   url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
