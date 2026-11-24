@@ -16,7 +16,7 @@ x-images:
 # Common environment variables shared across NOMAD app and internal/cpu/gpu workers
 x-nomad-environment: &nomad-environment
   NOMAD_ELASTIC_HOST: ${NOMAD_ELASTIC_HOST:-elastic}
-  NOMAD_ELASTIC_VERSION: ${NOMAD_ELASTIC_VERSION:-7}
+  NOMAD_ELASTIC_VERSION: ${NOMAD_ELASTIC_VERSION:-9}
   NOMAD_MONGO_HOST: ${NOMAD_MONGO_HOST:-mongo}
   NOMAD_TEMPORAL_HOST: ${NOMAD_TEMPORAL_HOST:-temporal}
 
@@ -75,10 +75,10 @@ services:
   # the search engine
   elastic:
     restart: unless-stopped
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.28
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.0
     container_name: nomad_oasis_elastic
     environment:
-      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m -XX:-UseBASE64Intrinsics
       - discovery.type=single-node
       - xpack.security.enabled=false
     volumes:
@@ -243,6 +243,9 @@ services:
   app:
     <<: *nomad-service
     container_name: nomad_oasis_app
+    networks:
+      - default
+      - north  
     environment:
       <<: *nomad-environment
       NOMAD_SERVICE: nomad_oasis_app
@@ -268,12 +271,14 @@ services:
     image: *north-image
     platform: linux/amd64
     container_name: nomad_oasis_north
+    networks:
+      - north
     environment:
       NOMAD_API_URL: "http://app:8000/backend/api/v1"
       BASE_URL: "/backend/north/"
       OAUTH_CALLBACK_URL: "https://nomad.nanolab.dtu.dk/backend/north/hub/oauth_callback"
       DOCKER_PREFIX: "nomad-oasis-north"
-      DOCKER_NETWORK: "nomad_oasis_network"
+      DOCKER_NETWORK: &north-network-name "nomad_oasis_north_network"
     env_file:
       - ./.env.north
     volumes:
@@ -302,6 +307,8 @@ services:
     image: *jupyter-image
     platform: linux/amd64
     container_name: nomad_jupyter_image
+    networks:
+      - north
     pull_policy: always
     entrypoint: ["true"]
     deploy:
@@ -310,8 +317,11 @@ services:
   # nomad proxy (a reverse proxy for nomad)
   proxy:
     restart: unless-stopped
-    image: docker.io/nginx:1.31.1-alpine
+    image: docker.io/nginx:1.31.9-alpine
     container_name: nomad_oasis_proxy
+    networks:
+      - default
+      - north
     command: nginx -g 'daemon off;'
     volumes:
       # Shared config
@@ -427,3 +437,6 @@ volumes:
 networks:
   default:
     name: nomad_oasis_network
+  north:
+    # DockerSpawner uses this network for user-launched tools.
+    name: *north-network-name
