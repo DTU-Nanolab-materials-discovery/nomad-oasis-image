@@ -421,7 +421,7 @@ volumes:
   mongo:
     name: "nomad_oasis_mongo"
   elastic:
-    name: "nomad_oasis_elastic"
+    name: "nomad_oasis_elastic_9"
   keycloak:
     name: "nomad_oasis_keycloak"
   postgresql:
