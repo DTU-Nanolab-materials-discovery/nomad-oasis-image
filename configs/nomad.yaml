@@ -6,6 +6,7 @@ services:
   api_port: 80
   api_base_path: "/backend"
   https: true
+  https_upload: true
 
 oasis:
   is_oasis: true
@@ -39,11 +40,11 @@ auth:
     - 'nikry@dtu.dk'
 
 client:
-  url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
+  url: https://nomad.nanolab.dtu.dk/backend/api
 
 meta:
   deployment: "oasis"
-  deployment_url: http://nomad.nanolab.dtu.dk/nomad-oasis/api
+  deployment_url: https://nomad.nanolab.dtu.dk/backend/api
 
 plugins:
   entry_points:
