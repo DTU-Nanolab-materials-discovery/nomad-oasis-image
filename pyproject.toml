@@ -49,7 +49,7 @@ plugins = [
   "nomad-auto-xrd",
   "nomad-crystallm",
   "nomad-north-jupyter>=0.2.6",
-  "nomad-gui==2.0.1",
+  "nomad-gui==2.0.2.dev34",
 ]
 jupyter = ["jupyter-events"]
 gpu-action = []
